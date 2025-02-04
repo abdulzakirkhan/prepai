@@ -1,0 +1,56 @@
+ const coreValues = [
+    {
+      icon: <Award className="w-12 h-12 text-[#10B981] mb-4" />,
+      title: "Continuous Learning",
+      description:
+        "Always striving to improve and provide better tools for growth.",
+    },
+    {
+      icon: <Users className="w-12 h-12 text-[#10B981] mb-4" />,
+      title: "Empowerment",
+      description:
+        "Supporting individuals in building confidence and achieving professional success.",
+    },
+    {
+      icon: <Briefcase className="w-12 h-12 text-[#10B981] mb-4" />,
+      title: "Excellence",
+      description:
+        "Delivering high-quality, impactful features to simplify interview preparation.",
+    },
+  ];
+   {/* Values Section */}
+   <motion.div
+   initial="hidden"
+   animate="visible"
+   variants={{
+     hidden: { opacity: 0, y: 50 },
+     visible: {
+       opacity: 1,
+       y: 0,
+       transition: { duration: 0.6, ease: "easeOut", staggerChildren: 0.2 },
+     },
+   }}
+   className="bg-white/50 shadow-xl backdrop-blur-md rounded-xl p-8"
+ >
+   <h2 className="text-3xl font-bold text-center text-gray-900 mb-10">
+     Our Core Values
+   </h2>
+   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+     {coreValues.map((value, index) => (
+       <motion.div
+         key={index}
+         variants={{
+           hidden: { opacity: 0, y: 30 },
+           visible: { opacity: 1, y: 0 },
+         }}
+         className="text-center bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+       >
+         <div className="flex justify-center">{value.icon}</div>
+         <h3 className="text-xl font-semibold text-gray-900 mb-3">
+           {value.title}
+         </h3>
+         <p className="text-lg text-gray-600">{value.description}</p>
+       </motion.div>
+     ))}
+   </div>
+ </motion.div>
