@@ -142,14 +142,14 @@ function Dashboard() {
               <Code className="text-[#10B981]" size={32} />
               Dashboard
             </h2>
-            <h3 className="text-lg sm:text-xl text-white mt-2">
+            {/* <h3 className="text-lg sm:text-xl text-white mt-2">
               Welcome, {user?.firstName || 'Interviewer'}
-            </h3>
+            </h3> */}
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-white text-sm sm:text-base">
-              {user?.primaryEmailAddress?.emailAddress || 'Not logged in'}
-            </span>
+          <h3 className="text-lg sm:text-xl text-white mt-2">
+              Welcome, {user?.fullName || 'Interviewer'}
+            </h3>
           </div>
         </div>
 
@@ -163,7 +163,7 @@ function Dashboard() {
           {statsCards.map((card) => (
             <motion.div
               key={card.title}
-              className="p-4 border-2 sm:p-6 rounded-lg shadow-lg hover:shadow-xl transition-all flex items-center"
+              className="p-4 border-2 border-[#10B981] sm:p-6 rounded-lg shadow-lg hover:shadow-xl transition-all flex items-center"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}

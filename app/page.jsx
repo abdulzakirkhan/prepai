@@ -1,12 +1,12 @@
 'use client'
 import { motion } from 'framer-motion';
 import HeroSection from './dashboard/_components/HeroSection'
-
-
+import WhyChooseUs, {} from ".././components/ui/WhyChooseUs"
 export default function ResourcesPage() {
   const features = [
     { title: "AI-Powered", description: "Get smart interview feedback." },
     { title: "Personalized Coaching", description: "Tailored guidance for your needs." },
+    { title: "Mock Interviews", description: "Practice with real-world scenarios." },
     { title: "Mock Interviews", description: "Practice with real-world scenarios." },
   ];
   const faqs = [
@@ -26,10 +26,14 @@ export default function ResourcesPage() {
     
     <HeroSection />
     <section className="pb-16 bg-gray-900 text-white text-center">
-      <div className="container mx-auto px-7">
+      <div className="container mx-auto px-7 -mt-16">
 
       <h2 className="text-3xl font-bold">Why Choose Us?</h2>
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="mt-12">
+        <WhyChooseUs features={features} />
+      </div>
+      {/* <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+
         {features.map((feature, index) => (
           <motion.div key={index} className="p-6 bg-gray-800 rounded-lg"
             initial={{ opacity: 0, y: 50 }}
@@ -40,7 +44,7 @@ export default function ResourcesPage() {
             <p className="mt-2 text-gray-400">{feature.description}</p>
           </motion.div>
         ))}
-      </div>
+      </div> */}
       </div>
     </section>
     <section className="py-16 bg-[#10B981] text-white text-center">

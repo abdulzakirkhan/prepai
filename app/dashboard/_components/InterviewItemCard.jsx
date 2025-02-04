@@ -36,12 +36,12 @@ const InterviewItemCard = ({ interview }) => {
   };
 
   return (
-    <div className="relative border shadow-sm rounded-sm p-3">
+    <div className="relative border-2 border-[#10B981] rounded-lg shadow-sm p-3">
       {/* Delete button in the top-right corner */}
       <Button
         size="sm"
         variant="outline"
-        className="absolute top-2 right-2 flex items-center border-0 bg-red-400 hover:bg-red-50 justify-center"
+        className="absolute top-2 right-2 flex items-center border-0 bg-[#10B981] hover:bg-[#10B960] transition-all duration-300 justify-center"
         onClick={() => setIsDialogOpen(true)}
       >
         <Trash className="text-red-600" />

@@ -105,7 +105,7 @@ function AddNewInterview() {
   return (
     <div>
       <div
-        className="p-10 border rounded-lg hover:scale-105 hover:shadow-md cursor-pointer transition-all"
+        className="p-10 border-2 border-[#10B981] rounded-lg hover:scale-105 hover:shadow-md cursor-pointer transition-all"
         onClick={() => setOpenDialog(true)}
       >
         <h1 className="font-bold text-lg text-white text-center">+ Create AI Mock Interview</h1>
