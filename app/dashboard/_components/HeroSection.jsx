@@ -1,6 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { SignInButton, UserButton, SignedOut, SignedIn } from "@clerk/nextjs";
+import Link from 'next/link';
 
 export default function HeroSection() {
   return (
@@ -56,30 +58,32 @@ export default function HeroSection() {
     </div>
 
     <div className="mt-10 flex items-center justify-center gap-x-6">
-      <a
-        href="/dashboard"
-        className="rounded-md bg-[#10B981] px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#059669] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#10B981]"
-      >
-        Get started
-      </a>
-      <a 
+      <SignedOut>
+        <SignInButton mode="modal">
+          <button
+            className="rounded-md bg-[#10B981] px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#059669] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#10B981]"
+          >
+            Sign In
+          </button>
+        </SignInButton>
+      </SignedOut>
+
+      <SignedIn>
+        <div className="p-5">
+          <Link href={"/dashboard"}
+            className="rounded-md bg-[#10B981] px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#059669] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#10B981]"
+          >
+            Start Interview
+          </Link>
+        </div>
+      </SignedIn>
+      {/* <a 
         href="/features" 
         className="rounded-md border border-gray-500 px-4 py-3 text-sm font-semibold text-gray-300 hover:bg-gray-800"
       >
         Learn more <span aria-hidden="true">→</span>
-      </a>
+      </a> */}
     </div>
-
-    {/* Trusted By Section */}
-      <div className="mt-10 text-sm text-gray-400">
-        <p>Trusted by 10,000+ job seekers worldwide</p>
-        {/* <div className="mt-4 flex justify-center space-x-4"> */}
-          {/* Placeholder for logos or testimonial images */}
-          {/* <div className="w-12 h-12 bg-gray-700 rounded-md"></div>
-          <div className="w-12 h-12 bg-gray-700 rounded-md"></div>
-          <div className="w-12 h-12 bg-gray-700 rounded-md"></div>
-        </div> */}
-      </div>
   </div>
 </motion.div>
   

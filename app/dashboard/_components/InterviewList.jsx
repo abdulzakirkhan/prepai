@@ -18,7 +18,7 @@ const InterviewList = () => {
 
   useEffect(() => {
     user && GetInterviewList();
-  }, [user]);
+  }, [user,InterviewList]);
 
   const GetInterviewList = async () => {
     const result = await db

@@ -16,6 +16,7 @@ import {
 
 import AddNewInterview from './_components/AddNewInterview'
 import InterviewList from './_components/InterviewList'
+import Image from 'next/image';
 
 function Dashboard() {
   const { user } = useUser();
@@ -139,12 +140,8 @@ function Dashboard() {
           </div>
           <div>
             <h2 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-3">
-              <Code className="text-[#10B981]" size={32} />
               Dashboard
             </h2>
-            {/* <h3 className="text-lg sm:text-xl text-white mt-2">
-              Welcome, {user?.firstName || 'Interviewer'}
-            </h3> */}
           </div>
           <div className="flex items-center gap-4">
           <h3 className="text-lg sm:text-xl text-white mt-2">
@@ -187,27 +184,38 @@ function Dashboard() {
           
 
           {/* Add New Interview Component */}
-          <div className='grid grid-cols-1 sm:grid-cols-3 gap-6'>
-            <AddNewInterview 
+          <div className='grid grid-cols-1 md:grid-cols-12 justify-center items-baseline gap-6'>
+            {/* <AddNewInterview 
               isOpen={isNewInterviewModalOpen} 
               onClose={() => setIsNewInterviewModalOpen(false)} 
-            />
+            /> */}
             
+            {/* Interview History */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7, duration: 0.6 }}
+              className="w-full md:col-span-9"
+            >
+              <h2 className="text-xl sm:text-2xl font-semibold text-white mb-6">
+                Interview History
+              </h2>
+              <InterviewList interviews={interviewData} />
+            </motion.div>
+
+            <div className="z-50 w-full md:col-span-3 text-end">
+              <AddNewInterview 
+                isOpen={isNewInterviewModalOpen} 
+                onClose={() => setIsNewInterviewModalOpen(false)} 
+              /> 
+            </div>
+
+
           </div>
         </motion.div>
 
-        {/* Interview History */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7, duration: 0.6 }}
-          className="mt-8"
-        >
-          <h2 className="text-xl sm:text-2xl font-semibold text-white mb-6">
-            Interview History
-          </h2>
-          <InterviewList interviews={interviewData} />
-        </motion.div>
+
+
       </motion.div>
     </div>
   );

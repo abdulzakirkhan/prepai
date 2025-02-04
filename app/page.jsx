@@ -2,6 +2,8 @@
 import { motion } from 'framer-motion';
 import HeroSection from './dashboard/_components/HeroSection'
 import WhyChooseUs, {} from ".././components/ui/WhyChooseUs"
+import { SignInButton, UserButton, SignedOut, SignedIn } from "@clerk/nextjs";
+import Link from 'next/link';
 export default function ResourcesPage() {
   const features = [
     { title: "AI-Powered", description: "Get smart interview feedback." },
@@ -50,9 +52,25 @@ export default function ResourcesPage() {
     <section className="py-16 bg-[#10B981] text-white text-center">
       <h2 className="text-3xl font-bold">Ready to Get Started?</h2>
       <p className="mt-4 text-lg">Sign up today and start preparing for your interviews like a pro!</p>
-      <a href="/signup" className="mt-6 inline-block bg-white text-[#10B981] px-6 py-3 rounded-full font-semibold">
-        Sign Up Now
-      </a>
+      <SignedOut>
+        <SignInButton mode="modal">
+          <button
+            className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            Sign In
+          </button>
+        </SignInButton>
+      </SignedOut>
+
+      <SignedIn>
+        <div className="p-5">
+          <Link href={"/dashboard"}
+            className="px-4 py-2 bg-white text-[#10B981] rounded-md hover:bg-green-700 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+          >
+            Get Started
+          </Link>
+        </div>
+      </SignedIn>
     </section>
     <section className="py-16 bg-gray-900 text-white">
       <h2 className="text-3xl font-bold text-center">Frequently Asked Questions</h2>

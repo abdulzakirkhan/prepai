@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Bot, Code } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 function Header() {
   const path = usePathname();
@@ -68,7 +69,9 @@ function Header() {
           ${isVisible ? "translate-y-0" : "-translate-y-full"}
         `}
       >
-        
+
+        <div className="container mx-auto flex justify-between items-center">
+
         {/* Logo */}
         <Link
           href="/"
@@ -76,7 +79,8 @@ function Header() {
           aria-label="Mock Interview Home"
           onClick={closeMobileMenu}
         >
-          <Code className="text-[#10B980]" size={40} />
+          {/* <Code className="text-[#10B980]" size={40} /> */}
+          <Image src={"/artificial-intelligence.png"} width={50} height={40} alt="" />
           <span className="text-xl sm:text-2xl font-bold text-[#10B980]">MOCK</span>
         </Link>
 
@@ -137,6 +141,8 @@ function Header() {
             />
           </SignedIn>
         </div>
+        </div>
+        
       </header>
 
       {/* Mobile Menu Overlay */}

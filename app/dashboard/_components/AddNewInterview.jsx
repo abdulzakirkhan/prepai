@@ -103,13 +103,15 @@ function AddNewInterview() {
   };
 
   return (
-    <div>
-      <div
-        className="p-10 border-2 border-[#10B981] rounded-lg hover:scale-105 hover:shadow-md cursor-pointer transition-all"
+    <>
+      <button style={{cursor:"pointer"}}
+        className="border-2 border-[#10B981] py-3 w-full z-50 rounded-lg hover:scale-105 hover:shadow-md cursor-pointer transition-all"
         onClick={() => setOpenDialog(true)}
       >
-        <h1 className="font-bold text-lg text-white text-center">+ Create AI Mock Interview</h1>
-      </div>
+        <h1 className="font-bold text-lg text-white text-center cursor-pointer">+ Start New Interview</h1>
+      </button>
+
+
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent className="max-w-2xl linear-gradient(135deg, rgba(16,185,129,0.2), rgba(5,150,105,0.3))">
           <DialogHeader>
@@ -186,7 +188,7 @@ function AddNewInterview() {
           </DialogDescription>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   );
 }
 

@@ -9,15 +9,18 @@ import {
   BookOpen,
   Rocket,
 } from "lucide-react";
+import { AiOutlineRobot } from "react-icons/ai";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Slid, {} from "../../components/ui/Sli"
+import { SiStorybook } from "react-icons/si";
+import Diversity3OutlinedIcon from '@mui/icons-material/Diversity3Outlined';
 const AboutUsPage = () => {
   const [activeTab, setActiveTab] = useState("mission");
 
   const tabContent = {
     mission: {
-      icon: <Target className="mr-2 text-white" />,
+      icon: <AiOutlineRobot className="mr-2 text-white" />,
       content: (
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -39,7 +42,7 @@ const AboutUsPage = () => {
       ),
     },
     story: {
-      icon: <BookOpen className="mr-2 text-white" />,
+      icon: <SiStorybook className="mr-2 text-white" />,
       content: (
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -94,7 +97,7 @@ const AboutUsPage = () => {
       ),
     },
     team: {
-      icon: <Users className="mr-2 text-white" />,
+      icon: <Diversity3OutlinedIcon className="mr-2 text-white" />,
       content: (
         <motion.div
           initial={{ opacity: 0, y: 30 }}
