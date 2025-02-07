@@ -54,6 +54,7 @@ function AddNewInterview() {
   const [jobPosition, setJobPosition] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [jobExperience, setJobExperience] = useState("");
+  const [questions, setQuestions] = useState(5)
   const [loading, setLoading] = useState(false);
   const { user } = useUser();
   const router = useRouter();
@@ -73,7 +74,7 @@ function AddNewInterview() {
     setLoading(true);
   
     const inputPrompt = `Job position: ${jobPosition}, Job Description: ${jobDescription}, Years of Experience: ${jobExperience}.
-    Generate 5 interview questions and answers in JSON format.`;
+    Generate ${questions} interview questions and answers in JSON format.`;
   
     try {
       const result = await chatSession.sendMessage(inputPrompt);
@@ -90,6 +91,7 @@ function AddNewInterview() {
           jobPosition: jobPosition,
           jobDesc: jobDescription,
           jobExperience: jobExperience,
+          jobQuestions: questions,
           createdBy: user?.primaryEmailAddress?.emailAddress,
           createdAt: moment().format('DD-MM-YYYY'),
         }).returning({ mockId: MockInterview.mockId });
@@ -110,14 +112,14 @@ function AddNewInterview() {
         className="border-2 border-[#10B981] py-3 w-full z-50 rounded-lg hover:scale-105 hover:shadow-md cursor-pointer transition-all"
         onClick={() => setOpenDialog(true)}
       >
-        <h1 className="font-bold text-lg dark:text-white text-center cursor-pointer">+ Start New Interview</h1>
+        <h1 className={`font-bold text-lg ${theme === "dark" ? "text-white z-50" : "text-black"} text-center cursor-pointer`}>+ Start New Interview</h1>
       </button>
 
 
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent className="max-w-2xl linear-gradient(135deg, rgba(16,185,129,0.2), rgba(5,150,105,0.3))">
           <DialogHeader>
-            <DialogTitle className="font-bold text-2xl">
+            <DialogTitle className={`font-bold text-2xl ${theme === "dark" ? "text-white" : ""}`}>
               Create Your Interview Preparation
             </DialogTitle>
           </DialogHeader>
@@ -169,6 +171,18 @@ function AddNewInterview() {
                     value={jobExperience}
                     required
                     onChange={(e) => setJobExperience(e.target.value)}
+                  />
+                </div>
+                <div className="my-3">
+                  <label>Questions</label>
+                  <Input
+                    placeholder="5"
+                    type="number"
+                    min="0"
+                    max="70"
+                    value={questions}
+                    required
+                    onChange={(e) => setQuestions(e.target.value)}
                   />
                 </div>
               </div>
