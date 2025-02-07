@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import Footer from "./dashboard/_components/Footer";
 import Header from "./dashboard/_components/Header";
 import { OpenGraph } from 'next/dist/lib/metadata/types/opengraph-types';
-
+import { ThemeProvider } from "@/app/context/ThemeContext"
 const geistSans = localFont({
   
   src: "./fonts/GeistVF.woff",
@@ -102,34 +102,37 @@ export default function RootLayout({ children }) {
             font-sans
           `}
         >
-          <a 
-            href="#main-content" 
-            className="
-              absolute 
-              top-[-999px] 
-              left-[-999px] 
-              z-[-1] 
-              focus:top-0 
-              focus:left-0 
-              focus:z-50 
-              p-4 
-              bg-indigo-600 
-              text-white
-            "
-          >
-            Skip to main content
-          </a>
-          
-          <Header />
-          <Toaster />
-          
-          <main 
-            id="main-content"
-          >
-            {children}
-          </main>
-          
-          <Footer />
+          <ThemeProvider>
+            <a 
+              href="#main-content" 
+              className="
+                absolute 
+                top-[-999px] 
+                left-[-999px] 
+                z-[-1] 
+                focus:top-0 
+                focus:left-0 
+                focus:z-50 
+                p-4 
+                bg-indigo-600 
+                text-white
+              "
+            >
+              Skip to main content
+            </a>
+            
+            <Header />
+            <Toaster />
+            
+            <main 
+              id="main-content"
+            >
+              {children}
+            </main>
+            
+            <Footer />
+
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

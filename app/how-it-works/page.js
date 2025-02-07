@@ -5,7 +5,10 @@ import { Bot, UserCheck, Settings, Play, Send, ChartBar, Repeat, Code } from "lu
 import { motion } from "framer-motion";
 import SmSlider from "../../components/ui/SmSlider";
 import StepsComp, {} from "../../components/Steps";
+import Image from "next/image";
+import { useTheme } from "../context/ThemeContext";
 const HowItWorksPage = () => {
+  const {theme,toggleTheme} =useTheme()
   const steps = [
     {
       icon: <UserCheck size={48} className="text-[#10B981]" />,
@@ -85,9 +88,9 @@ const HowItWorksPage = () => {
   ]
 
   return (
-    <section className="bg-[#0D1117] isolate min-h-screen overflow-hidden relative">
+    <section className="dark:bg-[#0D1117] dark:isolate min-h-screen overflow-hidden relative">
       {/* Background Parallax Animation */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+      <div className={`${theme === "dark" ? "absolute top-0 left-0 w-full h-full overflow-hidden -z-10" :"hidden"}`}>
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 0.2, y: 0 }}
@@ -104,20 +107,22 @@ const HowItWorksPage = () => {
           variants={fadeInStagger}
           className="text-center mb-16"
         >
-          <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            className="text-4xl md:text-5xl font-bold text-white mb-4"
-          >
-            <Code className="inline-block mr-3 text-[#10B981]" size={48} />
-            Mock Interview AI
-          </motion.h1>
+          <div className="flex justify-center">
+            <motion.h1
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
+              className={`text-4xl flex w-1/2 items-center text-center gap-6 md:text-5xl font-bold ${theme === "dark" ?"text-white" :"text-[#10B981]"} mb-4`}
+            >
+              <Image src={"/artificial-intelligence.png"} width={50} height={40} alt="" />
+              Mock Interview AI
+            </motion.h1>
+          </div>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2 }}
-            className="text-lg text-gray-50"
+            className="text-lg dark:text-gray-50"
           >
             Master your interviews with AI-powered practice and personalized insights.
           </motion.p>
@@ -170,7 +175,7 @@ const HowItWorksPage = () => {
       
       <div className="container mx-auto px-7 pb-16">
         <div className="mt-20 text-center text-gray-50">
-          <h2 className="text-3xl font-bold text-white mb-6">Why Choose Mock Interview AI?</h2>
+          <h2 className={`text-3xl font-bold ${theme === "dark" ? "text-white" : ""} mb-6`}>Why Choose Mock Interview AI?</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {/* {addvantages.map((card,index) => (
 

@@ -3,15 +3,18 @@ import { SignInButton, UserButton, SignedOut, SignedIn } from "@clerk/nextjs";
 import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Bot, Code } from "lucide-react";
+import { Menu, X, Bot, Code,Moon, Sun  } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-
+import { useTheme } from "@/app/context/ThemeContext";
 function Header() {
   const path = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const {theme,toggleTheme}=useTheme()
+
+
 
   const controlNavbar = useCallback(() => {
     if (typeof window !== "undefined") {
@@ -57,6 +60,10 @@ function Header() {
     { href: "/about-us", label: "About us" },
   ];
 
+
+
+
+ 
   return (
     <>
       <header
@@ -66,7 +73,7 @@ function Header() {
           p-4 sm:p-5 backdrop-blur-md
           shadow-md z-50 
           transition-all duration-300 ease-in-out
-          ${isVisible ? "translate-y-0" : "-translate-y-full"}
+          ${isVisible ? "translate-y-0" : "-translate-y-full"} ${theme === "dark" ? "header text-white" :"text-black bg-white shadow-xl" }
         `}
       >
 
@@ -108,7 +115,13 @@ function Header() {
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
-
+        <button
+            onClick={toggleTheme}
+            className="p-2 rounded-md focus:outline-none transition-colors"
+            aria-label="Toggle Theme"
+          >
+            {theme === "dark" ? <Sun size={24} /> : <Moon size={24} />}
+          </button>
         {/* Desktop Authentication */}
         <div className="hidden md:block">
           <SignedOut>
@@ -235,9 +248,7 @@ function NavItem({ path, href, label, mobile, onClick }) {
           ? "w-full text-lg py-3 text-center"
           : "px-3 py-2 hover:bg-[#10B980] hover:text-white"
         }
-        ${path === href
-          ? "text-white font-bold bg-[#10B980]"
-          : "text-white hover:text-white"
+        ${path === href ? "font-bold bg-[#10B980]" : " hover:text-white"
         }
       `}
     >

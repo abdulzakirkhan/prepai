@@ -19,6 +19,7 @@ import { useUser } from "@clerk/nextjs";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useTheme } from "@/app/context/ThemeContext";
 
 // Job Role Suggestions
 const JOB_ROLE_SUGGESTIONS = [
@@ -56,6 +57,7 @@ function AddNewInterview() {
   const [loading, setLoading] = useState(false);
   const { user } = useUser();
   const router = useRouter();
+    const {theme,toggleTheme}=useTheme()
 
   // Auto-suggest tech stack based on job role
   const autoSuggestTechStack = (role) => {
@@ -108,7 +110,7 @@ function AddNewInterview() {
         className="border-2 border-[#10B981] py-3 w-full z-50 rounded-lg hover:scale-105 hover:shadow-md cursor-pointer transition-all"
         onClick={() => setOpenDialog(true)}
       >
-        <h1 className="font-bold text-lg text-white text-center cursor-pointer">+ Start New Interview</h1>
+        <h1 className="font-bold text-lg dark:text-white text-center cursor-pointer">+ Start New Interview</h1>
       </button>
 
 

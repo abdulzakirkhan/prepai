@@ -4,8 +4,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules"; // Import Navigation module
 import "swiper/css";
 import "swiper/css/navigation";
+import { useTheme } from "@/app/context/ThemeContext";
 
 const Slid = ({ coreValues }) => {
+  const {theme,toggleTheme} =useTheme()
   return (
     <>
       <Swiper
@@ -35,13 +37,13 @@ const Slid = ({ coreValues }) => {
                   transition: { duration: 0.6, ease: "easeOut", staggerChildren: 0.2 },
                 },
               }}
-              className="p-8 rounded-2xl h-64 border border-[#10B981] shadow-lg transition-all bg-opacity-80 backdrop-blur-lg bg-[#1F2937] flex flex-col items-center text-center"
+              className={`p-8 rounded-2xl h-64 border border-[#10B981] shadow-lg transition-all bg-opacity-80 backdrop-blur-lg ${theme === "dark" ? "bg-[#1F2937]" :""} flex flex-col items-center text-center`}
             >
               <div className="flex justify-center">{value.icon}</div>
-              <h3 className="text-xl font-semibold text-gray-400 mb-3">
+              <h3 className="text-xl font-semibold dark:text-gray-400 mb-3">
                 {value.title}
               </h3>
-              <p className="text-lg text-gray-400">{value.description}</p>
+              <p className="text-lg dark:text-gray-400">{value.description}</p>
             </motion.div>
           </SwiperSlide>
         ))}

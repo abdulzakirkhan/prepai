@@ -5,8 +5,10 @@ import { Pagination, Navigation } from "swiper/modules"; // Import Swiper module
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { useTheme } from "@/app/context/ThemeContext";
 
 const WhyChooseUs = ({ features }) => {
+  const {theme,toggleTheme}=useTheme()
   const fadeInStagger = {
     hidden: { opacity: 0, y: 50 },
     visible: {
@@ -50,13 +52,13 @@ const WhyChooseUs = ({ features }) => {
       >
         {features.map((feature, index) => (
           <SwiperSlide key={index}>
-            <motion.div key={index} className="p-6 bg-gray-800 rounded-lg"
+            <motion.div key={index} className={`p-6 ${theme === "dark" ? "bg-gray-800" :"border-2"} rounded-lg`}
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.2 }}
           >
             <h3 className="text-xl font-semibold">{feature.title}</h3>
-            <p className="mt-2 text-gray-400">{feature.description}</p>
+            <p className={`mt-2 ${theme === "dark" ? "text-gray-400" : "text-black"}`}>{feature.description}</p>
           </motion.div>
           </SwiperSlide>
         ))}

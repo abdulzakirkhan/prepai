@@ -15,12 +15,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Slid, {} from "../../components/ui/Sli"
 import { SiStorybook } from "react-icons/si";
 import Diversity3OutlinedIcon from '@mui/icons-material/Diversity3Outlined';
+import { useTheme } from "../context/ThemeContext";
 const AboutUsPage = () => {
   const [activeTab, setActiveTab] = useState("mission");
+  const {theme,toggleTheme} = useTheme()
 
   const tabContent = {
     mission: {
-      icon: <AiOutlineRobot className="mr-2 text-white" />,
+      icon: <AiOutlineRobot className="mr-2 dark:text-white" />,
       content: (
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -28,12 +30,12 @@ const AboutUsPage = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="space-y-4"
         >
-          <p className="text-lg text-white">
+          <p className="text-lg dark:text-white">
             Mock Interview AI is on a mission to revolutionize interview
             preparation by providing personalized, intelligent AI coaching
             tailored to individual career aspirations.
           </p>
-          <p className="text-lg text-white">
+          <p className="text-lg dark:text-white">
             With Mock Interview AI, the goal is to bridge the gap between
             preparation and success, empowering users to unlock their full
             potential.
@@ -42,7 +44,7 @@ const AboutUsPage = () => {
       ),
     },
     story: {
-      icon: <SiStorybook className="mr-2 text-white" />,
+      icon: <SiStorybook className="mr-2 dark:text-white" />,
       content: (
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -50,18 +52,18 @@ const AboutUsPage = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="space-y-4"
         >
-          <p className="text-lg text-white">
+          <p className="text-lg dark:text-white">
             The idea for Mock Interview AI was born from firsthand experiences
             with the challenges of interview preparation. As a solo developer, I
             wanted to create a platform that simplifies the process and builds
             confidence in individuals.
           </p>
-          <p className="text-lg text-white">
+          <p className="text-lg dark:text-white">
             This journey has been a testament to the power of passion and
             innovation, leading to the creation of an impactful tool for career
             growth.
           </p>
-          <p className="text-lg text-white">
+          <p className="text-lg dark:text-white">
             In collaboration with industry experts, we continue to refine our
             platform, ensuring that Mock Interview AI remains ahead of the curve
             in providing practical, actionable feedback to job seekers.
@@ -70,7 +72,7 @@ const AboutUsPage = () => {
       ),
     },
     approach: {
-      icon: <Rocket className="mr-2 text-white" />,
+      icon: <Rocket className="mr-2 dark:text-white" />,
       content: (
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -78,17 +80,17 @@ const AboutUsPage = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="space-y-4"
         >
-          <p className="text-lg text-white">
+          <p className="text-lg dark:text-white">
             Mock Interview AI leverages advanced AI algorithms to generate
             dynamic, contextually relevant interview questions based on your
             professional background and goals.
           </p>
-          <p className="text-lg text-white">
+          <p className="text-lg dark:text-white">
             Through real-time analysis and feedback, the platform provides
             actionable insights, enabling users to improve with every mock
             interview attempt.
           </p>
-          <p className="text-lg text-white">
+          <p className="text-lg dark:text-white">
             Our approach is designed to simulate the pressure of a real-life
             interview while providing helpful insights, making the transition to
             actual interviews smoother and more successful.
@@ -97,7 +99,7 @@ const AboutUsPage = () => {
       ),
     },
     team: {
-      icon: <Diversity3OutlinedIcon className="mr-2 text-white" />,
+      icon: <Diversity3OutlinedIcon className="mr-2 dark:text-white" />,
       content: (
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -105,12 +107,12 @@ const AboutUsPage = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="space-y-4"
         >
-          <p className="text-lg text-white">
+          <p className="text-lg dark:text-white">
             Behind Mock Interview AI is a dedicated team of AI engineers,
             developers, and career coaches who work tirelessly to improve and
             expand the platform.
           </p>
-          <p className="text-lg text-white">
+          <p className="text-lg dark:text-white">
             Our team shares a common vision of empowering individuals to achieve
             their career goals by offering high-quality, accessible interview
             preparation resources.
@@ -119,7 +121,7 @@ const AboutUsPage = () => {
       ),
     },
     vision: {
-      icon: <Rocket className="mr-2 text-white" />,
+      icon: <Rocket className="mr-2 dark:text-white" />,
       content: (
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -127,12 +129,12 @@ const AboutUsPage = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="space-y-4"
         >
-          <p className="text-lg text-white">
+          <p className="text-lg dark:text-white">
             Our long-term vision is to build an intelligent career development
             ecosystem that empowers professionals to continuously grow and
             succeed.
           </p>
-          <p className="text-lg text-white">
+          <p className="text-lg dark:text-white">
             We aim to enhance the AI’s capabilities by incorporating industry
             insights, soft-skill assessments, and other resources to provide a
             360-degree view of interview preparation.
@@ -184,8 +186,8 @@ const AboutUsPage = () => {
   };
 
   return (
-    <div className="min-h-screen relative isolate bg-[#0D1117] py-12 px-4 sm:px-6 lg:px-8">
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+    <div className={`min-h-screen  ${theme === "dark" ? "bg-[#0D1117] relative isolate" : ""} py-12 px-4 sm:px-6 lg:px-8`}>
+      <div className={`${theme === "dark" ? "absolute top-0 left-0 w-full h-full overflow-hidden -z-10" : "hidden"}`}>
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 0.2, y: 0 }}
@@ -201,17 +203,17 @@ const AboutUsPage = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="text-center mb-12"
         >
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white">
+          <h1 className={`text-4xl md:text-5xl font-extrabold ${theme === "dark" ? "text-white" : "text-[#10B981]"}`}>
             About Mock Interview AI
           </h1>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-50">
+          <p className="mt-4 max-w-2xl mx-auto text-lg dark:text-gray-50">
             Empowering professionals to ace interviews through intelligent,
             personalized AI coaching.
           </p>
         </motion.div>
 
-        <div className="bg-white/50 shadow-xl backdrop-blur-md rounded-xl overflow-hidden mb-12">
-          <div className="flex flex-col sm:flex-row">
+        <div className="dark:bg-white/50 shadow-xl backdrop-blur-md rounded-xl overflow-hidden mb-12">
+          <div className={`flex flex-col sm:flex-row ${theme === "dark" ? "" :"bg-[#e5e7eb] border-b-2 border-[grey]"}`}>
             {Object.keys(tabContent).map((tab) => (
               <button
                 key={tab}
@@ -219,8 +221,8 @@ const AboutUsPage = () => {
                 className={`w-full sm:flex-1 py-4 px-6 flex items-center justify-center text-lg font-medium 
                   ${
                     activeTab === tab
-                      ? "bg-[#10B981] text-white border-b-4"
-                      : "text-gray-600 bg-[#1F2937] hover:bg-[#10B981]"
+                      ? ` bg-[#10B981] text-white border-b-4`
+                      : ` ${theme === "dark" ? "text-gray-600 bg-[#1F2937]" : ""} hover:bg-[#10B981]`
                   }`}
               >
                 {tabContent[tab].icon}
@@ -228,7 +230,7 @@ const AboutUsPage = () => {
               </button>
             ))}
           </div>
-          <div className="p-6 bg-[#1F2937] ">{tabContent[activeTab].content}</div>
+          <div className={`p-6 ${theme === "dark" ? "bg-[#1F2937]" : "bg-[#e5e7eb]"}`}>{tabContent[activeTab].content}</div>
         </div>
       </div>
 
@@ -245,7 +247,7 @@ const AboutUsPage = () => {
         }}
         className="shadow-xl  backdrop-blur-md rounded-xl px-24 py-8"
       >
-          <h2 className="text-3xl font-bold text-center text-white mb-10">
+          <h2 className="text-3xl font-bold text-center dark:text-white mb-10">
             Our Core Values
           </h2>
           {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -35,7 +35,7 @@ const InterviewList = () => {
   return (
     <div className="">
 
-      <h2 className="font-medium text-xl text-white">Previous Mock Interview</h2>
+      <h2 className="font-medium text-xl dark:text-white">Previous Mock Interview</h2>
 
       {/* Conditionally render the content */}
       {InterviewList.length > 0 ? (

@@ -49,9 +49,9 @@ const InterviewItemCard = ({ interview }) => {
 
       {/* Card Content */}
       <div>
-        <h2 className="font-bold text-white">{interview?.jobPosition}</h2>
-        <h2 className="text-sm text-gray-50">Experience: {interview?.jobExperience} Year(s)</h2>
-        <h2 className="text-sm text-gray-50">Created At: {interview?.createdAt}</h2>
+        <h2 className="font-bold dark:text-white">{interview?.jobPosition}</h2>
+        <h2 className="text-sm dark:text-gray-50">Experience: {interview?.jobExperience} Year(s)</h2>
+        <h2 className="text-sm dark:text-gray-50">Created At: {interview?.createdAt}</h2>
       </div>
 
       <div className="flex justify-between gap-5 mt-2">

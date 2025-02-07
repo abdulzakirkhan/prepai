@@ -4,7 +4,12 @@ import HeroSection from './dashboard/_components/HeroSection'
 import WhyChooseUs, {} from ".././components/ui/WhyChooseUs"
 import { SignInButton, UserButton, SignedOut, SignedIn } from "@clerk/nextjs";
 import Link from 'next/link';
+import { useTheme } from './context/ThemeContext';
 export default function ResourcesPage() {
+
+  const {theme,toggleTheme}=useTheme()
+
+
   const features = [
     { title: "AI-Powered", description: "Get smart interview feedback." },
     { title: "Personalized Coaching", description: "Tailored guidance for your needs." },
@@ -27,7 +32,7 @@ export default function ResourcesPage() {
     <>
     
     <HeroSection />
-    <section className="pb-16 bg-gray-900 text-white text-center">
+    <section className={`py-20 ${theme === "dark" ? "bg-gray-900 text-white" : ""}  text-center`}>
       <div className="container mx-auto px-7 -mt-16">
 
       <h2 className="text-3xl font-bold">Why Choose Us?</h2>
@@ -49,9 +54,9 @@ export default function ResourcesPage() {
       </div> */}
       </div>
     </section>
-    <section className="py-16 bg-[#10B981] text-white text-center">
-      <h2 className="text-3xl font-bold">Ready to Get Started?</h2>
-      <p className="mt-4 text-lg">Sign up today and start preparing for your interviews like a pro!</p>
+    <section className={`py-16 ${theme === "dark" ? "bg-[#10B981]" :"bg-[#e5e7eb]"} text-white text-center`}>
+      <h2 className={`text-3xl font-bold ${theme === "dark" ? ""  :"text-[#10B981]"}`}>Ready to Get Started?</h2>
+      <p className={`mt-4 ${theme === "dark" ? "" :"text-black"} text-lg`}>Sign up today and start preparing for your interviews like a pro!</p>
       <SignedOut>
         <SignInButton mode="modal">
           <button
@@ -72,13 +77,13 @@ export default function ResourcesPage() {
         </div>
       </SignedIn>
     </section>
-    <section className="py-16 bg-gray-900 text-white">
+    <section className={`py-16  ${theme === "dark" ? "bg-gray-900 text-white" : "bg-[#f3f4f6]"}`}>
       <h2 className="text-3xl font-bold text-center">Frequently Asked Questions</h2>
       <div className="mt-8 max-w-2xl mx-auto space-y-4">
         {faqs.map((faq, index) => (
-          <details key={index} className="bg-gray-800 p-4 rounded-lg">
+          <details key={index} className={`${theme === "dark" ? "bg-gray-800" : "bg-[#e5e7eb]"} p-4 rounded-lg #e5e7eb`}>
             <summary className="cursor-pointer font-semibold">{faq.question}</summary>
-            <p className="mt-2 text-gray-400">{faq.answer}</p>
+            <p className={`mt-2 ${theme === "dark" ? "text-gray-400" : "text-black"}`}>{faq.answer}</p>
           </details>
         ))}
       </div>

@@ -17,11 +17,13 @@ import {
 import AddNewInterview from './_components/AddNewInterview'
 import InterviewList from './_components/InterviewList'
 import Image from 'next/image';
+import { useTheme } from '../context/ThemeContext';
 
 function Dashboard() {
   const { user } = useUser();
   const [interviewData, setInterviewData] = useState([]);
   const [isNewInterviewModalOpen, setIsNewInterviewModalOpen] = useState(false);
+  const {theme,toggleTheme} =useTheme()
   const [statsCards, setStatsCards] = useState([
     {
       icon: <ListChecks size={32} className="text-[#10B981]" />,
@@ -119,7 +121,7 @@ function Dashboard() {
   }, [user]);
 
   return (
-    <div className="bg-gradient-to-b from-[#1F2937] to-[#111827] min-h-screen flex items-center">
+    <div className={`${theme === "dark" ? "bg-gradient-to-b from-[#1F2937] to-[#111827]" : "bg-[#f3f4f6]"} min-h-screen flex items-center`}>
       <motion.div
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
@@ -128,7 +130,7 @@ function Dashboard() {
       >
         
         {/* User Greeting */}
-        <div className="flex  relative isolate flex-col sm:flex-row justify-between items-center mb-8 space-y-4 sm:space-y-0">
+        <div className={` ${theme === "dark" ? "flex  relative isolate" : ""} flex-col sm:flex-row justify-between items-center mb-8 space-y-4 sm:space-y-0`}>
           <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
             <div
               style={{
@@ -139,12 +141,12 @@ function Dashboard() {
             />
           </div>
           <div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-3">
+            <h2 className={`text-2xl sm:text-3xl font-bold ${theme === "dark" ? "text-white" : ""} flex items-center gap-3`}>
               Dashboard
             </h2>
           </div>
           <div className="flex items-center gap-4">
-          <h3 className="text-lg sm:text-xl text-white mt-2">
+          <h3 className={`text-lg sm:text-xl dark:text-white mt-2`}>
               Welcome, {user?.fullName || 'Interviewer'}
             </h3>
           </div>
@@ -167,8 +169,8 @@ function Dashboard() {
             >
               {card.icon}
               <div className="ml-4">
-                <p className="text-xs sm:text-sm  text-white">{card.title}</p>
-                <p className="text-xl sm:text-2xl font-bold text-white">{card.value}</p>
+                <p className="text-xs sm:text-sm  dark:text-white">{card.title}</p>
+                <p className="text-xl sm:text-2xl font-bold dark:text-white">{card.value}</p>
               </div>
             </motion.div>
           ))}
@@ -179,7 +181,7 @@ function Dashboard() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.6 }}
-          className="bg-gray-800 p-4 sm:p-6 rounded-lg"
+          className="dark:bg-gray-800 p-4 sm:p-6 rounded-lg"
         >
           
 
@@ -197,7 +199,7 @@ function Dashboard() {
               transition={{ delay: 0.7, duration: 0.6 }}
               className="w-full md:col-span-9"
             >
-              <h2 className="text-xl sm:text-2xl font-semibold text-white mb-6">
+              <h2 className="text-xl sm:text-2xl font-semibold dark:text-white mb-6">
                 Interview History
               </h2>
               <InterviewList interviews={interviewData} />

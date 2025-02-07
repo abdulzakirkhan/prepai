@@ -4,8 +4,10 @@ import { Pagination, Navigation } from "swiper/modules"; // Import Swiper module
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { useTheme } from "@/app/context/ThemeContext";
 
 const SmSlider = ({ advantages }) => {
+  const {theme,toggleTheme}=useTheme()
   return (
     <Swiper
       spaceBetween={20}
@@ -23,7 +25,7 @@ const SmSlider = ({ advantages }) => {
     >
       {advantages.map((card, index) => (
         <SwiperSlide key={index}>
-          <div className="p-6 border border-[#10B981] rounded-xl bg-[#1F2937] text-white text-center">
+          <div className={`p-6 border border-[#10B981] rounded-xl ${theme === "dark" ? "bg-[#1F2937] text-white" : "bg-[#e5e7eb] text-black"} text-center`}>
             <h3 className="text-xl font-semibold">{card.title}</h3>
             <p>{card.description}</p>
           </div>
