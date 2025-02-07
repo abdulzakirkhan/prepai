@@ -32,8 +32,10 @@ const InterviewList = () => {
     setInterviewList(result);
   };
 
+  console.log("InterviewList",InterviewList)
+
   return (
-    <div className="">
+    <div className="w-full">
 
       <h2 className="font-medium text-xl dark:text-white">Previous Mock Interview</h2>
 
@@ -41,7 +43,7 @@ const InterviewList = () => {
       {InterviewList.length > 0 ? (
         InterviewList.length < 3 ? (
           // If the list has less than 3 items, display them without the slider
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-3">
+          <div className="flex justify-center mt-3 items-center gap-12 border-2 rounded-lg">
             {InterviewList.map((interview, index) => (
               <InterviewItemCard interview={interview} key={index} />
             ))}
@@ -49,7 +51,7 @@ const InterviewList = () => {
         ) : (
           // If the list has 3 or more items, display them in the Swiper slider
           <Swiper
-            spaceBetween={20} // space between slides
+            spaceBetween={2} // space between slides
             slidesPerView={3} // Show 3 slides
             breakpoints={{
               640: {
@@ -64,7 +66,7 @@ const InterviewList = () => {
             className="my-5"
           >
             {InterviewList.map((interview, index) => (
-              <SwiperSlide key={index} className="px-12">
+              <SwiperSlide key={index} className="px-5">
                 <InterviewItemCard interview={interview} />
               </SwiperSlide>
             ))}

@@ -187,30 +187,32 @@ function Dashboard() {
 
           {/* Add New Interview Component */}
           <div className='grid grid-cols-1 md:grid-cols-12 justify-center items-baseline gap-6'>
-            {/* <AddNewInterview 
-              isOpen={isNewInterviewModalOpen} 
-              onClose={() => setIsNewInterviewModalOpen(false)} 
-            /> */}
-            
+            <div className="w-full md:col-span-12">
+              <div className="flex justify-between items-center">
+                <div className="">
+                  <h2 className="text-xl sm:text-2xl font-semibold dark:text-white mb-6">
+                    Interview History
+                  </h2>
+                </div>
+                <div className="z-50 text-end">
+                  <AddNewInterview 
+                    isOpen={isNewInterviewModalOpen} 
+                    onClose={() => setIsNewInterviewModalOpen(false)} 
+                  /> 
+                </div>
+              </div>
+            </div>
             {/* Interview History */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7, duration: 0.6 }}
-              className="w-full md:col-span-9"
+              className="w-full md:col-span-12"
             >
-              <h2 className="text-xl sm:text-2xl font-semibold dark:text-white mb-6">
-                Interview History
-              </h2>
               <InterviewList interviews={interviewData} />
             </motion.div>
 
-            <div className="z-50 w-full md:col-span-3 text-end">
-              <AddNewInterview 
-                isOpen={isNewInterviewModalOpen} 
-                onClose={() => setIsNewInterviewModalOpen(false)} 
-              /> 
-            </div>
+            
 
 
           </div>

@@ -70,7 +70,7 @@ const InterviewItemCard = ({ interview }) => {
             <h3 className="text-lg font-bold mb-4">Confirm Deletion</h3>
             <p className="mb-4">Are you sure you want to delete this interview?</p>
             <div className="flex justify-end gap-3">
-              <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+              <Button className={`text-white`} variant="outline" onClick={() => setIsDialogOpen(false)}>
                 Cancel
               </Button>
               <Button 

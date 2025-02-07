@@ -19,12 +19,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useTheme } from '@/app/context/ThemeContext';
 
 const Feedback = ({ params }) => {
   const [feedbackList, setFeedbackList] = useState([]);
   const [averageRating, setAverageRating] = useState(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const {theme,toggleTheme} = useTheme()
 
   useEffect(() => {
     GetFeedback();
@@ -88,8 +90,8 @@ const Feedback = ({ params }) => {
     hover: { scale: 1.05, boxShadow: "0px 4px 15px rgba(16,185,129,0.5)" },
   };
   return (
-    <div className="bg-gradient-to-b isolate from-[#1F2937] to-[#111827] relative min-h-screen flex items-center">
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+    <div className= {`${theme === "dark" ? "bg-gradient-to-b relative isolate from-[#1F2937] to-[#111827]" : "bg-[#fff]"} min-h-screen flex items-center`}>
+      <div className={`${theme === "dark" ? "absolute top-0 left-0 w-full h-full overflow-hidden -z-10" :"hidden"}`}>
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 0.2, y: 0 }}
@@ -104,18 +106,18 @@ const Feedback = ({ params }) => {
           initial="hidden"
           animate="visible"
           variants={cardVariants}
-          whileHover="hover"
-          className="max-w-md mx-auto bg-[#1F2937] border-2 border-[#10B981] rounded-2xl"
+          whileHover={`${theme === "dark" ? "hover" :"no-hover"}`}
+          className={`max-w-md mx-auto ${theme === "dark" ? "bg-[#1F2937]" : "bg-[#f3f4f6]"} border-2 border-[#10B981] rounded-2xl`}
         >
           <Card className="bg-transparent border-0">
             <CardHeader className="text-center">
               <XCircle className="mx-auto h-16 w-16 text-red-500" />
-              <h2 className="text-2xl font-bold text-gray-100 mt-4">
+              <h2 className="text-2xl font-bold dark:text-gray-100 mt-4">
                 No Interview Feedback Available
               </h2>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-gray-100 mb-6">
+              <p className="dark:text-gray-100 mb-6">
                 It seems like no feedback has been generated for this interview. 
                 This could be due to an incomplete interview or a system issue.
               </p>
@@ -140,25 +142,25 @@ const Feedback = ({ params }) => {
             animate="visible"
             variants={cardVariants}
             whileHover="hover"
-            className="max-w-4xl border-2 border-[#10B981] rounded-2xl bg-[#1F2937] mx-auto mb-8">
+            className={`max-w-4xl border-2 border-[#10B981] rounded-2xl ${theme === "dark" ? "bg-[#1F2937]" : "bg-white"} mx-auto mb-8`}>
               <Card className="bg-transparent border-0">
                 <CardHeader className="flex flex-row items-center gap-4">
                   <CheckCircle2 className="h-12 w-12 text-green-600" />
                   <div>
                     <h2 className="text-3xl font-bold text-green-600">Great Job!</h2>
-                    <p className="text-gray-100">You've completed your mock interview.</p>
+                    <p className="dark:text-gray-100">You've completed your mock interview.</p>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-gray-100">Overall Rating</p>
+                      <p className="text-sm dark:text-gray-100">Overall Rating</p>
                       <p className={`text-2xl font-bold ${getRatingColor(averageRating)}`}>
                         {averageRating ? `${averageRating}/10` : 'N/A'}
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-100">Total Questions</p>
+                      <p className="text-sm dark:text-gray-100">Total Questions</p>
                       <p className="text-2xl font-bold text-indigo-600">
                         {feedbackList.length}
                       </p>
@@ -169,10 +171,10 @@ const Feedback = ({ params }) => {
             </motion.div>
 
             <div className="max-w-4xl mx-auto space-y-4">
-              <h3 className="text-xl font-semibold text-gray-100">
+              <h3 className="text-xl font-semibold dark:text-gray-100">
                 Detailed Interview Feedback
               </h3>
-              <p className="text-sm text-gray-100 mb-4">
+              <p className="text-sm dark:text-gray-100 mb-4">
                 Review each question's performance and get insights for improvement.
               </p>
 
@@ -194,26 +196,26 @@ const Feedback = ({ params }) => {
                           {item.question}
                         </span>
                       </div>
-                      <ChevronsUpDown className="h-4 text-gray-500" />
+                      <ChevronsUpDown className="h-4 dark:text-gray-500" />
                     </div>
                   </CollapsibleTrigger>
-                  <CollapsibleContent className="p-4 bg-white">
+                  <CollapsibleContent className="p-4 dark:bg-white">
                     <div className="grid md:grid-cols-2 gap-4">
                       <div>
-                        <h4 className="font-semibold text-gray-700 mb-2">Your Answer</h4>
+                        <h4 className="font-semibold dark:text-gray-700 mb-2">Your Answer</h4>
                         <p className="bg-red-50 p-3 rounded-lg text-sm text-red-900 border border-red-200">
                           {item.userAns || "No answer provided"}
                         </p>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-700 mb-2">Correct Answer</h4>
+                        <h4 className="font-semibold dark:text-gray-700 mb-2">Correct Answer</h4>
                         <p className="bg-green-50 p-3 rounded-lg text-sm text-green-900 border border-green-200">
                           {item.correctAns}
                         </p>
                       </div>
                     </div>
                     <div className="mt-4">
-                      <h4 className="font-semibold text-gray-700 mb-2">Feedback</h4>
+                      <h4 className="font-semibold dark:text-gray-700 mb-2">Feedback</h4>
                       <p className="bg-blue-50 p-3 rounded-lg text-sm text-primary border border-blue-200">
                         {item.feedback}
                       </p>

@@ -9,10 +9,12 @@ import React, { useEffect, useState } from "react";
 import Webcam from "react-webcam";
 import { toast } from "sonner";
 import { motion } from "framer-motion"; // Import framer-motion
+import { useTheme } from "@/app/context/ThemeContext";
 
 function Interview({ params }) {
   const [interviewData, setInterviewData] = useState(null);
   const [webCamEnabled, setWebCamEnabled] = useState(false);
+  const {theme,toggleTheme}=useTheme()
 
   useEffect(() => {
     GetInterviewDetails();
@@ -72,8 +74,8 @@ function Interview({ params }) {
   return (
     <div className="my-10">
       {/* Add the animated background here */}
-      <div className="relative isolate bg-[#0D1117] py-12 px-4 sm:px-6 lg:px-8">
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+      <div className={`${theme === "dark" ? "relative isolate bg-[#0D1117]" :""} py-12 px-4 sm:px-6 lg:px-8`}>
+        <div className={`${theme === "dark" ? "absolute top-0 left-0 w-full h-full overflow-hidden -z-10" : "hidden"}`}>
           <motion.div
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 0.2, y: 0 }}
@@ -83,14 +85,14 @@ function Interview({ params }) {
         </div>
 
         {/* Interview Details and Webcam Section */}
-        <h2 className="font-bold text-2xl text-white mt-8 mb-5">Let's get started</h2>
+        <h2 className="font-bold text-2xl dark:text-white mt-8 mb-5">Let's get started</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           <div className="flex flex-col gap-5">
             <motion.div
              variants={cardVariants}
                 whileHover="hover"
 
-             className="flex flex-col p-5 text-white rounded-lg border gap-5">
+             className={`flex flex-col p-5 dark:text-white rounded-lg ${theme === "dark" ? "border" : "border-2 border-[#10B981]"}  gap-5`}>
               <h2 className="text-lg">
                 <strong>Job Role/Job Position: </strong>
                 {interviewData.jobPosition}
@@ -107,7 +109,7 @@ function Interview({ params }) {
             <motion.div
             variants={cardVariants}
                 whileHover="hover"
-             className="p-10 rounded-2xl border border-[#10B981] shadow-lg transition-all bg-opacity-80 backdrop-blur-lg bg-[#1F2937] flex flex-col text-white">
+             className={`p-10 rounded-2xl border border-[#10B981] shadow-lg transition-all bg-opacity-80 backdrop-blur-lg ${theme === "dark" ? "bg-[#1F2937] text-white" : "bg-[#FFF] border-2"} flex flex-col`}>
               <h2 className="flex gap-2 items-center">
                 <Lightbulb />
                 <span>Information</span>
@@ -121,7 +123,7 @@ function Interview({ params }) {
           </div>
 
           <motion.div
-          className="rounded-2xl px-0 py-0 m-0 border border-[#10B981] shadow-lg transition-all bg-opacity-80 backdrop-blur-lg bg-[#1F2937]"
+          className={`rounded-2xl px-0 py-0 m-0 border border-[#10B981] ${theme === "dark" ? "shadow-lg transition-all bg-opacity-80 backdrop-blur-lg bg-[#1F2937]" : ""} `}
           >
             {webCamEnabled ? (
               <Webcam

@@ -9,6 +9,7 @@ import { UserAnswer } from "@/utils/schema";
 import { useUser } from "@clerk/nextjs";
 import moment from "moment";
 import { motion } from "framer-motion";
+import { useTheme } from "@/app/context/ThemeContext";
 
 const RecordAnswerSection = ({ 
   mockInterviewQuestion, 
@@ -23,6 +24,7 @@ const RecordAnswerSection = ({
   const [webcamEnabled, setWebcamEnabled] = useState(false);
   const recognitionRef = useRef(null);
   const webcamRef = useRef(null);
+  const {theme,toggleTheme} =useTheme()
 
   useEffect(() => {
     // Speech recognition setup (previous code remains the same)
@@ -169,15 +171,15 @@ const RecordAnswerSection = ({
   return (
     <div className="flex justify-center items-center flex-col relative">
       {loading && (
-        <div className="fixed inset-0 bg-black/70 z-[9999] flex flex-col justify-center items-center">
+        <div className={`fixed inset-0 ${theme === "dark" ? "bg-black/70" :"bg-white shadow-lg border-2"} z-[9999] flex flex-col justify-center items-center`}>
           <Loader2 className="h-16 w-16 animate-spin text-white mb-4" />
           <p className="text-white text-lg">Saving your answer...</p>
         </div>
       )}
       <motion.div
       variants={cardVariants}
-                whileHover="hover"
-       className="flex flex-col my-20 justify-center items-center rounded-lg p-5 border-[#10B981] shadow-lg transition-all bg-opacity-80 backdrop-blur-lg bg-[#1F2937]">
+                whileHover={`${theme === "dark" ? "hover" : "no-hover"}`}
+       className={`flex flex-col my-20 justify-center items-center rounded-lg p-5 border-[#10B981] ${theme === "dark" ? "shadow-lg transition-all bg-opacity-80 backdrop-blur-lg bg-[#1F2937]" :"bg-white"}`}>
         {webcamEnabled ? (
           <video 
             ref={webcamRef} 
@@ -187,13 +189,13 @@ const RecordAnswerSection = ({
           />
         ) : (
           <div className="w-[200px] h-[200px] flex justify-center items-center border-2 border-[#10B981] rounded-lg">
-            <p className="text-gray-50">Webcam Disabled</p>
+            <p className="dark:text-gray-50">Webcam Disabled</p>
           </div>
         )}
         
         <Button 
           variant="outline" 
-          className="mt-4 bg-[#10B981] hover:bg-[#10B960] border-0 text-white relative transition-transform duration-300 hover:scale-105"
+          className="mt-4 bg-[#10B981] hover:bg-[#10B960] border-0 dark:text-white relative transition-transform duration-300 hover:scale-105"
           onClick={webcamEnabled ? DisableWebcam : EnableWebcam}
         >
           {webcamEnabled ? (
@@ -211,7 +213,7 @@ const RecordAnswerSection = ({
       <Button
         disabled={loading}
         variant="outline"
-        className="my-10 border-0 text-white hover:bg-[#10B960] bg-[#10B981] relative transition-transform duration-300 hover:scale-105"
+        className="my-10 border-0 dark:text-white hover:bg-[#10B960] bg-[#10B981] relative transition-transform duration-300 hover:scale-105"
         onClick={StartStopRecording}
       >
         {isRecording ? (
@@ -226,7 +228,7 @@ const RecordAnswerSection = ({
       </Button>
 
       <textarea
-        className="w-full bg-[#1F2937] h-32 p-4 mt-4 border border-[#10B981] rounded-md placeholder:text-gray-100 text-gray-100 focus:outline-none"
+        className={`w-full ${theme === "dark" ? "bg-[#1F2937] placeholder:text-gray-100 text-gray-100" :""} h-32 p-4 mt-4 border border-[#10B981] rounded-md focus:outline-none`}
         placeholder="Your answer will appear here..."
         value={userAnswer}
         onChange={(e) => setUserAnswer(e.target.value)}

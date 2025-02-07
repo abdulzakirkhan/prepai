@@ -91,7 +91,6 @@ function AddNewInterview() {
           jobPosition: jobPosition,
           jobDesc: jobDescription,
           jobExperience: jobExperience,
-          jobQuestions: questions,
           createdBy: user?.primaryEmailAddress?.emailAddress,
           createdAt: moment().format('DD-MM-YYYY'),
         }).returning({ mockId: MockInterview.mockId });
@@ -112,7 +111,7 @@ function AddNewInterview() {
         className="border-2 border-[#10B981] py-3 w-full z-50 rounded-lg hover:scale-105 hover:shadow-md cursor-pointer transition-all"
         onClick={() => setOpenDialog(true)}
       >
-        <h1 className={`font-bold text-lg ${theme === "dark" ? "text-white z-50" : "text-black"} text-center cursor-pointer`}>+ Start New Interview</h1>
+        <h1 className={`font-bold px-6 text-lg ${theme === "dark" ? "text-white z-50" : "text-black"} text-center cursor-pointer`}>+ Start New Interview</h1>
       </button>
 
 

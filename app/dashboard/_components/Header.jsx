@@ -115,13 +115,14 @@ function Header() {
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
-        <button
+          <button
             onClick={toggleTheme}
             className="p-2 rounded-md focus:outline-none transition-colors"
             aria-label="Toggle Theme"
           >
             {theme === "dark" ? <Sun size={24} /> : <Moon size={24} />}
           </button>
+
         {/* Desktop Authentication */}
         <div className="hidden md:block">
           <SignedOut>

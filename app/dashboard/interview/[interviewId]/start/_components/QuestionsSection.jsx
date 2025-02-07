@@ -3,7 +3,9 @@ import { Lightbulb, Volume2 } from 'lucide-react'
 import { motion } from "framer-motion";
 
 import React from 'react'
+import { useTheme } from '@/app/context/ThemeContext';
 const QuestionsSection = ({mockInterviewQuestion,activeQuestionIndex}) => {
+  const {theme,toggleTheme} =useTheme()
   console.log("🚀 ~ file: QuestionsSection.jsx:4 ~ QuestionsSection ~ mockInterviewQuestion:", mockInterviewQuestion);
   const textToSpeach=(text)=>{
 if('speechSynthesis' in window){
@@ -38,8 +40,8 @@ if('speechSynthesis' in window){
   return mockInterviewQuestion && (
     <motion.div
         variants={cardVariants}
-        whileHover="hover" 
-     className='p-5 border-2 border-[#10B981] rounded-xl my-10 transition-all bg-opacity-80 backdrop-blur-lg bg-[#1F2937]'>
+        whileHover={`${theme === "dark" ? "hover" : "no"}`}
+     className={`p-5 border-2 border-[#10B981] rounded-xl my-10 transition-all bg-opacity-80 backdrop-blur-lg ${theme === "dark" ? " bg-[#1F2937]" :"bg-white"}`}>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
             {mockInterviewQuestion && mockInterviewQuestion.map((question,index)=>(
                 <h2 className={`p-2 bg-[#1F2937] border border-[#10B981] rounded-full text-white text-xs md:text-sm text-center cursor-pointer ${activeQuestionIndex == index && 'bgPrimary text-black'}`}>Question #{index+1}</h2>
@@ -55,13 +57,13 @@ if('speechSynthesis' in window){
                 >
                 <motion.div
                 variants={cardVariants}
-                whileHover="hover" 
-                className='border rounded-lg p-5 border-[#10B981] shadow-lg transition-all bg-opacity-80 backdrop-blur-lg bg-[#1F2937] text-white mt-20'>
-                    <h2 className='flex gap-2 items-center text-white'>
-                        <Lightbulb className='text-white'/>
-                        <strong className='text-white'>Note:</strong>
+                whileHover={`${theme === "dark" ? "hover" : "no"}`}
+                className={`rounded-lg p-5 border-2 border-[#10B981] ${theme === "dark" ? "shadow-lg transition-all bg-opacity-80 backdrop-blur-lg bg-[#1F2937] text-white" :"text-black bg-white"} mt-20`}>
+                    <h2 className='flex gap-2 items-center'>
+                        <Lightbulb className=''/>
+                        <strong className=''>Note:</strong>
                     </h2>
-                    <h2 className='text-sm text-white my-2'>Enable Video Web Cam and Microphone to Start your AI Generated Mock Interview, It Has 5 questions which you can answer and at last you will get the report on the basis of your answer . NOTE: We never record your video, Web cam access you can disable at any time if you want</h2>
+                    <h2 className='text-sm my-2'>Enable Video Web Cam and Microphone to Start your AI Generated Mock Interview, It Has 5 questions which you can answer and at last you will get the report on the basis of your answer . NOTE: We never record your video, Web cam access you can disable at any time if you want</h2>
                 </motion.div>
                 </motion.div>
     </motion.div>

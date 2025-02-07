@@ -5,7 +5,7 @@ import Footer from './_components/Footer';
 function DashboardLayout({ children }) {
   return (
     <div>
-   <Header />
+   {/* <Header /> */}
       <main className="">
         {children}
       

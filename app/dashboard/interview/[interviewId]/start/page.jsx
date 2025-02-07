@@ -10,13 +10,14 @@ import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Bot, Play, Send } from "lucide-react";
+import { useTheme } from "@/app/context/ThemeContext";
 
 const StartInterview = ({ params }) => {
   const [interViewData, setInterviewData] = useState();
   const [mockInterviewQuestion, setMockInterviewQuestion] = useState();
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-
+  const {theme,toggleTheme} =useTheme()
   useEffect(() => {
     GetInterviewDetails();
   }, []);
@@ -90,9 +91,9 @@ const StartInterview = ({ params }) => {
   }
 
   return (
-    <section className="bg-[#0D1117] isolate min-h-screen overflow-hidden relative">
+    <section className={`${theme === "dark" ? "bg-[#0D1117] isolate" : "bg-[#f3f4f6]"} min-h-screen overflow-hidden relative`}>
       {/* Background Parallax Animation */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+      <div className={`${theme === "dark" ? "absolute top-0 left-0 w-full h-full overflow-hidden -z-10" : "hidden"}`}>
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 0.2, y: 0 }}
@@ -113,16 +114,16 @@ const StartInterview = ({ params }) => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
-            className="text-4xl md:text-5xl font-bold text-white mb-4"
+            className={`text-4xl md:text-5xl font-bold ${theme === "dark" ? "text-white" : "text-[#10B981]"} mb-4`}
           >
-            <Bot className="inline-block mr-3 text-[#10B981]" size={48} />
+            <Bot className="inline-block mr-3 -mt-3 text-[#10B981]" size={48} />
             Mock Interview AI
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2 }}
-            className="text-lg text-gray-400"
+            className="text-lg dark:text-gray-400"
           >
             Master your interviews with AI-powered practice and personalized insights.
           </motion.p>
