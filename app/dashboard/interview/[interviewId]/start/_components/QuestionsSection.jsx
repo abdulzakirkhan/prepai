@@ -41,13 +41,13 @@ if('speechSynthesis' in window){
     <motion.div
         variants={cardVariants}
         whileHover={`${theme === "dark" ? "hover" : "no"}`}
-     className={`p-5 border-2 border-[#10B981] rounded-xl my-10 transition-all bg-opacity-80 backdrop-blur-lg ${theme === "dark" ? " bg-[#1F2937]" :"bg-white"}`}>
+     className={`p-5 border-2 border-[#10B981] rounded-xl my-10 transition-all bg-opacity-80 backdrop-blur-lg dark:bg-[#1F2937] bg-white ${theme === "dark" ? " bg-[#1F2937]" :"bg-white"}`}>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
             {mockInterviewQuestion && mockInterviewQuestion.map((question,index)=>(
                 <h2 className={`p-2 bg-[#1F2937] border border-[#10B981] rounded-full text-white text-xs md:text-sm text-center cursor-pointer ${activeQuestionIndex == index && 'bgPrimary text-black'}`}>Question #{index+1}</h2>
             ))}
         </div>
-            <h2 className='my-5 text-md md:text-lg  text-white'>
+            <h2 className='my-5 text-md md:text-lg  dark:text-white'>
                 {mockInterviewQuestion[activeQuestionIndex]?.question}
             </h2>
             <Volume2 className='cursor-pointer text-white' onClick={()=>textToSpeach(mockInterviewQuestion[activeQuestionIndex]?.question)}/>

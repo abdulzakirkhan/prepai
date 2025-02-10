@@ -11,6 +11,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Bot, Play, Send } from "lucide-react";
 import { useTheme } from "@/app/context/ThemeContext";
+import Image from "next/image";
 
 const StartInterview = ({ params }) => {
   const [interViewData, setInterviewData] = useState();
@@ -116,7 +117,8 @@ const StartInterview = ({ params }) => {
             transition={{ duration: 1 }}
             className={`text-4xl md:text-5xl font-bold ${theme === "dark" ? "text-white" : "text-[#10B981]"} mb-4`}
           >
-            <Bot className="inline-block mr-3 -mt-3 text-[#10B981]" size={48} />
+            {/* <Bot className="inline-block mr-3   text-[#10B981]" size={48} /> */}
+            <Image src={"/artificial-intelligence.png"} className="inline-block mr-3 -mt-2" width={50} height={40} alt="" />
             Mock Interview AI
           </motion.h1>
           <motion.p

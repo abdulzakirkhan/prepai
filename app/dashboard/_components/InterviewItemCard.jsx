@@ -7,7 +7,7 @@ import { MockInterview } from "@/utils/schema";
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
 
-const InterviewItemCard = ({ interview }) => {
+const InterviewItemCard = ({ interview ,width}) => {
   const router = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -36,7 +36,7 @@ const InterviewItemCard = ({ interview }) => {
   };
 
   return (
-    <div className="relative border-2 border-[#10B981] rounded-lg shadow-sm p-3">
+    <div className={`relative ${width} border-2 border-[#10B981] rounded-lg shadow-sm p-3`}>
       {/* Delete button in the top-right corner */}
       <Button
         size="sm"

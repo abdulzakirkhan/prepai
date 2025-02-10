@@ -35,7 +35,7 @@ const InterviewList = () => {
   console.log("InterviewList",InterviewList)
 
   return (
-    <div className="w-full">
+    <div className="w-full md:col-span-12">
 
       <h2 className="font-medium text-xl dark:text-white">Previous Mock Interview</h2>
 
@@ -43,9 +43,9 @@ const InterviewList = () => {
       {InterviewList.length > 0 ? (
         InterviewList.length < 3 ? (
           // If the list has less than 3 items, display them without the slider
-          <div className="flex justify-center mt-3 items-center gap-12 border-2 rounded-lg">
+          <div className="flex mt-3 items-center gap-12 rounded-lg">
             {InterviewList.map((interview, index) => (
-              <InterviewItemCard interview={interview} key={index} />
+              <InterviewItemCard interview={interview} width={"w-1/3"} key={index} />
             ))}
           </div>
         ) : (
@@ -66,8 +66,8 @@ const InterviewList = () => {
             className="my-5"
           >
             {InterviewList.map((interview, index) => (
-              <SwiperSlide key={index} className="px-5">
-                <InterviewItemCard interview={interview} />
+              <SwiperSlide key={index} className="px-5 w-full">
+                <InterviewItemCard interview={interview} width={"w-full"} />
               </SwiperSlide>
             ))}
           </Swiper>
