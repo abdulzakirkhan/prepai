@@ -83,12 +83,12 @@ function Header() {
         <Link
           href="/"
           className="flex items-center gap-2"
-          aria-label="Mock Interview Home"
+          aria-label="PREP AI Interview Home"
           onClick={closeMobileMenu}
         >
           {/* <Code className="text-[#10B980]" size={40} /> */}
           <Image src={"/artificial-intelligence.png"} width={50} height={40} alt="" />
-          <span className="text-xl sm:text-2xl font-bold text-[#10B980]">MOCK</span>
+          <span className="text-xl sm:text-2xl font-bold text-[#10B980]">PREP AI </span>
         </Link>
 
         {/* Desktop Navigation */}

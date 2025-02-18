@@ -172,8 +172,8 @@ const RecordAnswerSection = ({
     <div className="flex justify-center items-center flex-col relative">
       {loading && (
         <div className={`fixed inset-0 ${theme === "dark" ? "bg-black/70" :"bg-white shadow-lg border-2"} z-[9999] flex flex-col justify-center items-center`}>
-          <Loader2 className="h-16 w-16 animate-spin text-white mb-4" />
-          <p className="text-white text-lg">Saving your answer...</p>
+          <Loader2 className={`h-16 w-16 animate-spin ${theme === "dark" ? "text-white" : "text-black"} mb-4`} />
+          <p className={`${theme === "dark" ? "text-white" : "text-black"} text-lg`}>Saving your answer...</p>
         </div>
       )}
       <motion.div
@@ -240,7 +240,7 @@ const RecordAnswerSection = ({
         disabled={loading || !userAnswer.trim()}
       >
         {loading ? (
-          <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...</>
+          <><Loader2 className={`mr-2 h-4 w-4 ${theme === "dark" ? "text-black" :"text-white"} animate-spin`} /> Saving...</>
         ) : (
           "Save Answer"
         )}

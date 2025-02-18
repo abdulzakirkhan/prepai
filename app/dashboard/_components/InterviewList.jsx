@@ -32,8 +32,6 @@ const InterviewList = () => {
     setInterviewList(result);
   };
 
-  console.log("InterviewList",InterviewList)
-
   return (
     <div className="w-full md:col-span-12">
 

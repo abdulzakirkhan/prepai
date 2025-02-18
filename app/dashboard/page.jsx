@@ -73,6 +73,7 @@ function Dashboard() {
       setInterviewData(userSpecificInterviews);
 
       const totalInterviews = userSpecificInterviews.length;
+    
       const bestScore = totalInterviews > 0 
         ? Math.max(...userSpecificInterviews.map(item => parseInt(item.rating || '0')))
         : 0;
@@ -93,8 +94,8 @@ function Dashboard() {
         }
       ]);
 
-      if (totalInterviews > 0) {
-        toast.success(`Loaded ${totalInterviews} interview(s)`);
+      if (interviewData.length > 0) {
+        toast.success(`Loaded ${totalInterviews} Questions`);
       }
 
     } catch (error) {
@@ -102,6 +103,7 @@ function Dashboard() {
       toast.error(error.message || 'Failed to fetch interviews');
     }
   };
+  
 
   const calculateImprovementRate = (interviews) => {
     if (interviews.length <= 1) return 0;
@@ -113,6 +115,9 @@ function Dashboard() {
     const improvement = ((scores[scores.length - 1] - scores[0]) / scores[0]) * 100;
     return Math.round(improvement);
   };
+
+
+  
 
   useEffect(() => {
     if (user?.primaryEmailAddress?.emailAddress) {

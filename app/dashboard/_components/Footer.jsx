@@ -37,9 +37,9 @@ const Footer = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h3 className="text-xl font-bold text-[#10b981]">Mock Interview Project</h3>
+              <h3 className="text-xl font-bold text-[#10b981]">PREP AI  Interview Project</h3>
               <p className={`text-sm ${theme === "dark" ? "text-gray-400" : "text-black"}`}>
-                Empowering job seekers with AI-powered mock interviews to ace their next opportunity.
+                Empowering job seekers with AI-powered PREP AI  interviews to ace their next opportunity.
               </p>
             </motion.div>
 
