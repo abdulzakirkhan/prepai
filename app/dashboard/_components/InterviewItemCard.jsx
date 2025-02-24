@@ -30,7 +30,6 @@ const InterviewItemCard = ({ interview ,width}) => {
       // Use router to refresh instead of full page reload
       router.refresh();
     } catch (error) {
-      console.error("Error deleting interview:", error);
       toast.error("Failed to delete interview");
     }
   };

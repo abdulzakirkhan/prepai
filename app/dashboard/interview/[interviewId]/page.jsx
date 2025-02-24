@@ -34,7 +34,6 @@ function Interview({ params }) {
       }
     } catch (error) {
       toast.error("Error fetching interview details");
-      console.error("Interview details fetch error:", error);
     }
   };
 
@@ -47,7 +46,6 @@ function Interview({ params }) {
         })
         .catch((error) => {
           toast.error("Failed to access webcam or microphone");
-          console.error("Webcam access error:", error);
         });
     } else {
       setWebCamEnabled(false);

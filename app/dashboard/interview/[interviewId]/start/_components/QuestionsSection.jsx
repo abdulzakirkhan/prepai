@@ -1,20 +1,31 @@
-"use client"
-import { Lightbulb, Volume2 } from 'lucide-react'
+"use client";
+import { Lightbulb, Volume2 } from "lucide-react";
 import { motion } from "framer-motion";
+import React from "react";
+import { useTheme } from "@/app/context/ThemeContext";
 
-import React from 'react'
-import { useTheme } from '@/app/context/ThemeContext';
-const QuestionsSection = ({mockInterviewQuestion,activeQuestionIndex}) => {
-  const {theme,toggleTheme} =useTheme()
-  console.log("🚀 ~ file: QuestionsSection.jsx:4 ~ QuestionsSection ~ mockInterviewQuestion:", mockInterviewQuestion);
-  const textToSpeach=(text)=>{
-if('speechSynthesis' in window){
-    const speech = new SpeechSynthesisUtterance(text);
-    window.speechSynthesis.speak(speech)
-}else{
-    alert("Sorry, your browser does not support text to speech")
-}
-  }
+const QuestionsSection = ({ mockInterviewQuestion, activeQuestionIndex }) => {
+  const { theme } = useTheme();
+
+
+  // Ensure questionsArray is always an array
+  const questionsArray = Array.isArray(mockInterviewQuestion)
+  ? mockInterviewQuestion
+  : Object.values(mockInterviewQuestion || []);
+
+
+
+  const textToSpeech = (text) => {
+    if (!text) return;
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+      const speech = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.speak(speech);
+    } else {
+      alert("Sorry, your browser does not support text-to-speech.");
+    }
+  };
+
   const fadeInStagger = {
     hidden: { opacity: 0, y: 50 },
     visible: {
@@ -23,6 +34,7 @@ if('speechSynthesis' in window){
       transition: { duration: 0.8, ease: "easeOut", staggerChildren: 0.3 },
     },
   };
+
   const cardVariants = {
     hidden: { opacity: 0, scale: 0.9 },
     visible: {
@@ -37,37 +49,64 @@ if('speechSynthesis' in window){
       backdropFilter: "blur(15px)",
     },
   };
-  return mockInterviewQuestion && (
-    <motion.div
-        variants={cardVariants}
-        whileHover={`${theme === "dark" ? "hover" : "no"}`}
-     className={`p-5 border-2 border-[#10B981] rounded-xl my-10 transition-all bg-opacity-80 backdrop-blur-lg dark:bg-[#1F2937] bg-white ${theme === "dark" ? " bg-[#1F2937]" :"bg-white"}`}>
-        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
-            {mockInterviewQuestion && mockInterviewQuestion.map((question,index)=>(
-                <h2 className={`p-2 bg-[#1F2937] border border-[#10B981] rounded-full text-white text-xs md:text-sm text-center cursor-pointer ${activeQuestionIndex == index && 'bgPrimary text-black'}`}>Question #{index+1}</h2>
-            ))}
-        </div>
-            <h2 className='my-5 text-md md:text-lg  dark:text-white'>
-                {mockInterviewQuestion[activeQuestionIndex]?.question}
-            </h2>
-            <Volume2 className='cursor-pointer text-white' onClick={()=>textToSpeach(mockInterviewQuestion[activeQuestionIndex]?.question)}/>
-                <motion.div initial="hidden"
-                    animate="visible"
-                    variants={fadeInStagger}
-                >
-                <motion.div
-                variants={cardVariants}
-                whileHover={`${theme === "dark" ? "hover" : "no"}`}
-                className={`rounded-lg p-5 border-2 border-[#10B981] ${theme === "dark" ? "shadow-lg transition-all bg-opacity-80 backdrop-blur-lg bg-[#1F2937] text-white" :"text-black bg-white"} mt-20`}>
-                    <h2 className='flex gap-2 items-center'>
-                        <Lightbulb className=''/>
-                        <strong className=''>Note:</strong>
-                    </h2>
-                    <h2 className='text-sm my-2'>Enable Video Web Cam and Microphone to Start your AI Generated Mock Interview, It Has 5 questions which you can answer and at last you will get the report on the basis of your answer . NOTE: We never record your video, Web cam access you can disable at any time if you want</h2>
-                </motion.div>
-                </motion.div>
-    </motion.div>
-  )
-}
 
-export default QuestionsSection
+  return (
+    <motion.div
+      variants={cardVariants}
+      whileHover={`${theme === "dark" ? "hover" : "no"}`}
+      className={`p-5 border-2 border-[#10B981] rounded-xl my-10 transition-all bg-opacity-80 backdrop-blur-lg ${
+        theme === "dark" ? "bg-[#1F2937] text-white" : "bg-white text-black"
+      }`}
+    >
+      {/* 🔥 Question Tabs */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        {mockInterviewQuestion.map((_, index) => (
+          <h2
+            key={index}
+            className={`p-2 border border-[#10B981] rounded-full text-xs md:text-sm text-center cursor-pointer ${
+              activeQuestionIndex === index ? "bg-[#10B981] text-black" : "bg-[#1F2937] text-white"
+            }`}
+          >
+            Question #{index + 1}
+          </h2>
+        ))}
+      </div>
+
+      {/* 🔥 Display Selected Question */}
+      <h2 className="my-5 text-md md:text-lg dark:text-white">
+        {mockInterviewQuestion[activeQuestionIndex] || "⚠️ No question available. Please refresh."}
+      </h2>
+
+      {/* 🔥 Speech Button */}
+      <Volume2
+        className="cursor-pointer text-white"
+        onClick={() => textToSpeech(mockInterviewQuestion[activeQuestionIndex])}
+      />
+
+      {/* 🔥 Instructions Section */}
+      <motion.div initial="hidden" animate="visible" variants={fadeInStagger}>
+        <motion.div
+          variants={cardVariants}
+          whileHover={`${theme === "dark" ? "hover" : "no"}`}
+          className={`rounded-lg p-5 border-2 border-[#10B981] mt-20 ${
+            theme === "dark"
+              ? "shadow-lg transition-all bg-opacity-80 backdrop-blur-lg bg-[#1F2937] text-white"
+              : "text-black bg-white"
+          }`}
+        >
+          <h2 className="flex gap-2 items-center">
+            <Lightbulb />
+            <strong>Note:</strong>
+          </h2>
+          <h2 className="text-sm my-2">
+            Enable Video Web Cam and Microphone to start your AI-Generated Mock Interview. It has 5 questions, and at the end, you will receive a report based on your answers.
+            <br />
+            <strong>NOTE:</strong> We never record your video. Webcam access can be disabled at any time.
+          </h2>
+        </motion.div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+export default QuestionsSection;

@@ -108,7 +108,7 @@ function Header() {
         <div className="md:hidden">
           <button
             onClick={toggleMobileMenu}
-            className="focus:outline-none text-gray-600 hover:text-indigo-600 transition-colors"
+            className="focus:outline-none text-gray-100 hover:text-indigo-600 transition-colors"
             aria-label={isMobileMenuOpen ? "Close Menu" : "Open Menu"}
             aria-expanded={isMobileMenuOpen}
           >
@@ -177,7 +177,7 @@ function Header() {
           aria-label="Mobile Navigation Menu"
         >
           <div className="h-full overflow-y-auto pb-16">
-            <nav className="space-y-6 p-6">
+            <nav className="space-y-6 p-6 text-white">
               {navItems.map((item) => (
                 <NavItem
                   key={item.href}

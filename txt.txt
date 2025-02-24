@@ -1,56 +1,58 @@
- const coreValues = [
-    {
-      icon: <Award className="w-12 h-12 text-[#10B981] mb-4" />,
-      title: "Continuous Learning",
-      description:
-        "Always striving to improve and provide better tools for growth.",
-    },
-    {
-      icon: <Users className="w-12 h-12 text-[#10B981] mb-4" />,
-      title: "Empowerment",
-      description:
-        "Supporting individuals in building confidence and achieving professional success.",
-    },
-    {
-      icon: <Briefcase className="w-12 h-12 text-[#10B981] mb-4" />,
-      title: "Excellence",
-      description:
-        "Delivering high-quality, impactful features to simplify interview preparation.",
-    },
-  ];
-   {/* Values Section */}
-   <motion.div
-   initial="hidden"
-   animate="visible"
-   variants={{
-     hidden: { opacity: 0, y: 50 },
-     visible: {
-       opacity: 1,
-       y: 0,
-       transition: { duration: 0.6, ease: "easeOut", staggerChildren: 0.2 },
-     },
-   }}
-   className="bg-white/50 shadow-xl backdrop-blur-md rounded-xl p-8"
- >
-   <h2 className="text-3xl font-bold text-center text-gray-900 mb-10">
-     Our Core Values
-   </h2>
-   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-     {coreValues.map((value, index) => (
-       <motion.div
-         key={index}
-         variants={{
-           hidden: { opacity: 0, y: 30 },
-           visible: { opacity: 1, y: 0 },
-         }}
-         className="text-center bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
-       >
-         <div className="flex justify-center">{value.icon}</div>
-         <h3 className="text-xl font-semibold text-gray-900 mb-3">
-           {value.title}
-         </h3>
-         <p className="text-lg text-gray-600">{value.description}</p>
-       </motion.div>
-     ))}
-   </div>
- </motion.div>
+  const fetchInterviews = async () => {
+    if (!user?.primaryEmailAddress?.emailAddress) {
+      toast.error("User email not found");
+      return;
+    }
+  
+    try {
+      const response = await fetch('/api/fetchUserData', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userEmail: user.primaryEmailAddress.emailAddress
+        })
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to fetch interview data');
+      }
+  
+      const data = await response.json();
+      
+      // API already filters by email, so no need to filter again
+      const userInterviews = data.userAnswers;
+  
+      setInterviewData(userInterviews);
+  
+      const totalInterviews = userInterviews.length;
+    
+      const bestScore = totalInterviews > 0 
+        ? Math.max(...userInterviews.map(item => parseInt(item.rating || '0', 10)))
+        : 0;
+  
+      const improvementRate = calculateImprovementRate(userInterviews);
+  
+      setStatsCards([
+        {
+          ...statsCards[0],
+          value: totalInterviews
+        },
+        {
+          ...statsCards[1],
+          value: totalInterviews === 0 ? 'N/A' : `${bestScore}/10` 
+        },
+        {
+          ...statsCards[2],
+          value: totalInterviews > 1 ? `${improvementRate}%` : '0%'
+        }
+      ]);
+  
+     
+  
+    } catch (error) {
+      toast.error(error.message || 'Failed to fetch interviews');
+    }
+  };

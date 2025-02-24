@@ -1,5 +1,4 @@
 'use client'
-
 import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 import { useUser } from "@clerk/nextjs";
@@ -13,22 +12,26 @@ import {
   TrendingUp,
   Code
 } from "lucide-react";
-
+import { db } from "@/utils/db";
+import { MockInterview } from "@/utils/schema";
 import AddNewInterview from './_components/AddNewInterview'
 import InterviewList from './_components/InterviewList'
 import Image from 'next/image';
 import { useTheme } from '../context/ThemeContext';
+import { eq ,desc} from 'drizzle-orm';
 
 function Dashboard() {
   const { user } = useUser();
   const [interviewData, setInterviewData] = useState([]);
   const [isNewInterviewModalOpen, setIsNewInterviewModalOpen] = useState(false);
   const {theme,toggleTheme} =useTheme()
+ const [interviews, setInterviews] = useState([]);
+  const [userInterviews, setUserInterviews] = useState([])
   const [statsCards, setStatsCards] = useState([
     {
       icon: <ListChecks size={32} className="text-[#10B981]" />,
       title: "Total Interview Question",
-      value: "0"
+      value: interviews.length || "0",
     },
     {
       icon: <Trophy size={32} className="text-[#10B981]" />,
@@ -42,68 +45,28 @@ function Dashboard() {
     }
   ]);
 
-  const fetchInterviews = async () => {
-    if (!user?.primaryEmailAddress?.emailAddress) {
-      toast.error("User email not found");
-      return;
-    }
 
-    try {
-      const response = await fetch('/api/fetchUserData', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          userEmail: user.primaryEmailAddress.emailAddress
-        })
-      });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to fetch interview data');
-      }
 
-      const data = await response.json();
-      
-      const userSpecificInterviews = data.userAnswers.filter(
-        interview => interview.userEmail === user.primaryEmailAddress.emailAddress
-      );
+    const GetInterviewList = async () => {
+      const result = await db
+        .select()
+        .from(MockInterview)
+        .where(
+          eq(MockInterview.createdBy, user?.primaryEmailAddress?.emailAddress)
+        )
+        .orderBy(desc(MockInterview.id));
+      setInterviews(result);
+    };
 
-      setInterviewData(userSpecificInterviews);
 
-      const totalInterviews = userSpecificInterviews.length;
-    
-      const bestScore = totalInterviews > 0 
-        ? Math.max(...userSpecificInterviews.map(item => parseInt(item.rating || '0')))
-        : 0;
-      const improvementRate = calculateImprovementRate(userSpecificInterviews);
 
-      setStatsCards([
-        {
-          ...statsCards[0],
-          value: totalInterviews.toString()
-        },
-        {
-          ...statsCards[1],
-          value: bestScore ? `${bestScore}/10` : 'N/A'
-        },
-        {
-          ...statsCards[2],
-          value: `${improvementRate}%`
-        }
-      ]);
 
-      if (interviewData.length > 0) {
-        toast.success(`Loaded ${totalInterviews} Questions`);
-      }
 
-    } catch (error) {
-      console.error('Error fetching interviews:', error);
-      toast.error(error.message || 'Failed to fetch interviews');
-    }
-  };
-  
+
+
+
+
 
   const calculateImprovementRate = (interviews) => {
     if (interviews.length <= 1) return 0;
@@ -121,9 +84,35 @@ function Dashboard() {
 
   useEffect(() => {
     if (user?.primaryEmailAddress?.emailAddress) {
-      fetchInterviews();
+      GetInterviewList();
+      
     }
-  }, [user]);
+  }, [user,]);
+
+
+  useEffect(() => {
+    if (interviews.length > 0) {
+      toast.success(`Loaded ${interviews.length} Interviews`, { id: "interview-toast" });
+      const bestScore = interviews > 0 
+        ? Math.max(...interviews.map(item => parseInt(item.rating || '0', 10)))
+        : 0;
+      setStatsCards([
+        {
+          ...statsCards[0],
+          value: interviews.length
+        },
+        {
+          ...statsCards[1],
+          value: interviews === 0 ? 'N/A' : `${bestScore}/10` 
+        },
+        {
+          ...statsCards[2],
+          value: interviews > 1 ? `${improvementRate}%` : '0%'
+        }
+      ])
+    }
+  }, [interviews]);
+  
 
   return (
     <div className={`${theme === "dark" ? "bg-gradient-to-b from-[#1F2937] to-[#111827]" : "bg-[#f3f4f6]"} min-h-screen flex items-center`}>

@@ -1,4 +1,6 @@
+"use client"
 import localFont from "next/font/local";
+
 import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs';
 import { Toaster } from "@/components/ui/sonner";
@@ -6,6 +8,8 @@ import Footer from "./dashboard/_components/Footer";
 import Header from "./dashboard/_components/Header";
 import { OpenGraph } from 'next/dist/lib/metadata/types/opengraph-types';
 import { ThemeProvider } from "@/app/context/ThemeContext"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useState } from "react";
 const geistSans = localFont({
   
   src: "./fonts/GeistVF.woff",
@@ -23,7 +27,7 @@ const geistMono = localFont({
   fallback: ['Courier New', 'monospace']
 });
 
-export const metadata = {
+const metadata = {
   metadataBase: new URL('https://egeeksglobal.com'),
   title: {
     default: 'Mock Interview Project - AI-Powered Interview Preparation',
@@ -85,7 +89,9 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const [queryClient] = useState(() => new QueryClient());
   return (
+    <QueryClientProvider client={queryClient}>
     <ClerkProvider>
       <html 
         lang="en" 
@@ -136,5 +142,6 @@ export default function RootLayout({ children }) {
         </body>
       </html>
     </ClerkProvider>
+    </QueryClientProvider>
   );
 }

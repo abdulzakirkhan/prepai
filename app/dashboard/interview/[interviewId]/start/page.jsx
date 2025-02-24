@@ -14,14 +14,16 @@ import { useTheme } from "@/app/context/ThemeContext";
 import Image from "next/image";
 
 const StartInterview = ({ params }) => {
+  const {intId} =params;
   const [interViewData, setInterviewData] = useState();
   const [mockInterviewQuestion, setMockInterviewQuestion] = useState();
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const {theme,toggleTheme} =useTheme()
+  const [answeredQuestions, setAnsweredQuestions] = useState([]);
   useEffect(() => {
     GetInterviewDetails();
-  }, []);
+  }, [intId]);
 
   const GetInterviewDetails = async () => {
     try {
@@ -30,23 +32,73 @@ const StartInterview = ({ params }) => {
         .select()
         .from(MockInterview)
         .where(eq(MockInterview.mockId, params.interviewId));
-
-      const jsonMockResp = JSON.parse(result[0].jsonMockResp);
-      setMockInterviewQuestion(jsonMockResp);
+  
+      if (!result.length || !result[0].jsonMockResp) {
+        setIsLoading(false);
+        return;
+      }
+  
+      let jsonMockResp;
+      try {
+        jsonMockResp = JSON.parse(result[0].jsonMockResp);
+      } catch (error) {
+        jsonMockResp = []; // Fallback to an empty array
+      }
+  
+      // Ensure jsonMockResp is an array
+      if (!Array.isArray(jsonMockResp)) {
+        
+        jsonMockResp = Object.values(jsonMockResp).flat(); // Convert object to array and flatten in case of nested structure
+      }
+  
+  
+      // Ensure that every item in jsonMockResp is a valid React child (string, number, JSX)
+      const validMockResp = jsonMockResp.map((item) => {
+        if (typeof item === "object" && item !== null) {
+          return JSON.stringify(item); // Convert objects to strings for rendering
+        }
+        return item;
+      });
+  
+      setMockInterviewQuestion(validMockResp);
       setInterviewData(result[0]);
     } catch (error) {
-      console.error("Failed to fetch interview details:", error);
     } finally {
       setIsLoading(false);
     }
   };
-
+  
+  
   const handleAnswerSave = (answerRecord) => {
-    if (activeQuestionIndex < mockInterviewQuestion.length - 1) {
-      setActiveQuestionIndex((prev) => prev + 1);
-    }
-  };
 
+    setMockInterviewQuestion((prevQuestions) => {
+
+        // Ensure prevQuestions is an array
+        if (!Array.isArray(prevQuestions)) {
+            return [];
+        }
+
+        // Ensure activeQuestionIndex is within range
+        if (activeQuestionIndex < 0 || activeQuestionIndex >=  mockInterviewQuestion.length - 1) {
+            return prevQuestions;
+        }
+
+        return prevQuestions.map((question, index) =>
+            index === activeQuestionIndex ? { ...question, answer: answerRecord } : question
+        );
+    });
+
+    // Ensure we don't go out of bounds when moving to the next question
+    setActiveQuestionIndex((prevIndex) => {
+        const nextIndex = prevIndex + 1;
+        return nextIndex < mockInterviewQuestion.length ? nextIndex : prevIndex;
+    });
+};
+
+
+
+
+  
   // Animations
   const fadeInStagger = {
     hidden: { opacity: 0, y: 50 },
@@ -90,6 +142,7 @@ const StartInterview = ({ params }) => {
       </div>
     );
   }
+
 
   return (
     <section className={`${theme === "dark" ? "bg-[#0D1117] isolate" : "bg-[#f3f4f6]"} min-h-screen overflow-hidden relative`}>

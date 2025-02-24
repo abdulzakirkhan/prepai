@@ -98,7 +98,6 @@ function AddNewInterview() {
       toast.success('Interview questions generated successfully!');
       router.push(`dashboard/interview/${res[0]?.mockId}`);
     } catch (error) {
-      console.error("Error generating interview:", error);
       toast.error('Failed to generate interview questions.');
     } finally {
       setLoading(false);

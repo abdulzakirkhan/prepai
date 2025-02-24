@@ -181,7 +181,7 @@ const Feedback = ({ params }) => {
               {feedbackList.map((item, index) => (
                 <Collapsible key={index} className="border rounded-lg overflow-hidden">
                   <CollapsibleTrigger className="w-full">
-                    <div className="flex items-center justify-between p-4 bg-gray-100 hover:bg-gray-200 transition-colors">
+                    <div className={`flex items-center justify-between p-4 ${theme === "dark" ? "bg-gray-200" : ""} hover:bg-gray-200 transition-colors`}>
                       <div className="flex items-center gap-3">
                         <Target 
                           className={`h-5 w-5 ${
@@ -199,24 +199,24 @@ const Feedback = ({ params }) => {
                       <ChevronsUpDown className="h-4 dark:text-gray-500" />
                     </div>
                   </CollapsibleTrigger>
-                  <CollapsibleContent className="p-4 dark:bg-white">
+                  <CollapsibleContent className={`p-4 ${theme === "dark" ? "bg-[#1F2937] text-white" : "bg-white text-black"}`}>
                     <div className="grid md:grid-cols-2 gap-4">
                       <div>
-                        <h4 className="font-semibold dark:text-gray-700 mb-2">Your Answer</h4>
+                        <h4 className={`font-semibold ${theme === "dark" ? "text-white" : "text-black"} mb-2`}>Your Answer</h4>
                         <p className="bg-red-50 p-3 rounded-lg text-sm text-red-900 border border-red-200">
                           {item.userAns || "No answer provided"}
                         </p>
                       </div>
                       <div>
-                        <h4 className="font-semibold dark:text-gray-700 mb-2">Correct Answer</h4>
-                        <p className="bg-green-50 p-3 rounded-lg text-sm text-green-900 border border-green-200">
+                        <h4 className={`font-semibold ${theme === "dark" ? "text-white" : "text-black"} mb-2`}>Correct Answer</h4>
+                        <p className={` ${theme === "dark" ? "bg-green-50 text-black " : "bg-white text-black"} p-3 rounded-lg text-sm text-green-900 border border-green-200`}>
                           {item.correctAns}
                         </p>
                       </div>
                     </div>
                     <div className="mt-4">
-                      <h4 className="font-semibold dark:text-gray-700 mb-2">Feedback</h4>
-                      <p className="bg-blue-50 p-3 rounded-lg text-sm text-primary border border-blue-200">
+                      <h4 className={`font-semibold ${theme === "dark" ? "text-white"  :"text-black"} mb-2`}>Feedback</h4>
+                      <p className={`p-3 ${theme === "dark" ? "bg-black text-white"  :"bg-blue-50 text-black"} rounded-lg text-sm text-primary border border-blue-200`}>
                         {item.feedback}
                       </p>
                     </div>
