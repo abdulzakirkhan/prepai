@@ -10,8 +10,8 @@ import Webcam from "react-webcam";
 import { toast } from "sonner";
 import { motion } from "framer-motion"; // Import framer-motion
 import { useTheme } from "@/app/context/ThemeContext";
-
 function Interview({ params }) {
+  const [stream, setStream] = useState(null);
   const [interviewData, setInterviewData] = useState(null);
   const [webCamEnabled, setWebCamEnabled] = useState(false);
   const {theme,toggleTheme}=useTheme()
@@ -37,20 +37,25 @@ function Interview({ params }) {
     }
   };
 
-  const handleWebcamToggle = () => {
-    if (!webCamEnabled) {
-      navigator.mediaDevices.getUserMedia({ video: true })
-        .then(() => {
-          setWebCamEnabled(true);
-          toast.success("Webcam and microphone enabled");
-        })
-        .catch((error) => {
-          toast.error("Failed to access webcam or microphone");
-        });
-    } else {
-      setWebCamEnabled(false);
+  const handleWebcamToggle =async () => {
+    try {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const videoDevices = devices.filter(device => device.kind === "videoinput");
+      // conditionaly check if the user has a webcam then enable it
+      if (videoDevices.length > 0) {
+        setWebCamEnabled(!webCamEnabled);
+      } else {
+        // else show a toast message to the user connect a webcam
+        toast.error("No webcam found. Please connect a webcam.");
+      }
+    } catch (error) {
+      console.error("Error checking webcam:", error);
+      toast.error("Failed to check webcam availability.");
     }
   };
+
+  console.log("webCamEnabled,",webCamEnabled)
+
 
   if (!interviewData) {
     return <div>Loading interview details...</div>;
@@ -69,6 +74,9 @@ function Interview({ params }) {
       backdropFilter: "blur(15px)",
     },
   };
+
+
+  
   return (
     <div className="my-10">
       {/* Add the animated background here */}
@@ -127,9 +135,13 @@ function Interview({ params }) {
               <Webcam
                 mirrored={true}
                 style={{ height: 300, width: "auto" }}
-                onUserMedia={() => setWebCamEnabled(true)}
-                onUserMediaError={() => {
-                  toast.error("Webcam access error");
+                onUserMedia={(mediaStream) => {
+                  setStream(mediaStream);
+                  console.log("Webcam started successfully");
+                }}
+                onUserMediaError={(error) => {
+                  console.log("error",error)
+                  toast.error(`Webcam error: ${error.name} - ${error.message}`);
                   setWebCamEnabled(false);
                 }}
               />

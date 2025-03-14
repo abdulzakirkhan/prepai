@@ -23,6 +23,13 @@ import { useTheme } from '@/app/context/ThemeContext';
 
 const Feedback = ({ params }) => {
   const [feedbackList, setFeedbackList] = useState([]);
+
+
+
+
+
+
+
   const [averageRating, setAverageRating] = useState(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -32,6 +39,7 @@ const Feedback = ({ params }) => {
     GetFeedback();
   }, []);
 
+  
   const GetFeedback = async () => {
     setLoading(true);
     const result = await db.select()
@@ -89,6 +97,10 @@ const Feedback = ({ params }) => {
   const buttonVariants = {
     hover: { scale: 1.05, boxShadow: "0px 4px 15px rgba(16,185,129,0.5)" },
   };
+
+
+  
+
   return (
     <div className= {`${theme === "dark" ? "bg-gradient-to-b relative isolate from-[#1F2937] to-[#111827]" : "bg-[#fff]"} min-h-screen flex items-center`}>
       <div className={`${theme === "dark" ? "absolute top-0 left-0 w-full h-full overflow-hidden -z-10" :"hidden"}`}>
@@ -178,7 +190,10 @@ const Feedback = ({ params }) => {
                 Review each question's performance and get insights for improvement.
               </p>
 
-              {feedbackList.map((item, index) => (
+              {feedbackList.map((item, index) => {
+                const parsedQuestion = item.question ? JSON.parse(item.question) : { question: "Question not found" };
+
+                return (
                 <Collapsible key={index} className="border rounded-lg overflow-hidden">
                   <CollapsibleTrigger className="w-full">
                     <div className={`flex items-center justify-between p-4 ${theme === "dark" ? "bg-gray-200" : ""} hover:bg-gray-200 transition-colors`}>
@@ -193,7 +208,7 @@ const Feedback = ({ params }) => {
                           }`} 
                         />
                         <span className="font-medium text-gray-800 line-clamp-1">
-                          {item.question}
+                          {parsedQuestion.question}
                         </span>
                       </div>
                       <ChevronsUpDown className="h-4 dark:text-gray-500" />
@@ -210,7 +225,7 @@ const Feedback = ({ params }) => {
                       <div>
                         <h4 className={`font-semibold ${theme === "dark" ? "text-white" : "text-black"} mb-2`}>Correct Answer</h4>
                         <p className={` ${theme === "dark" ? "bg-green-50 text-black " : "bg-white text-black"} p-3 rounded-lg text-sm text-green-900 border border-green-200`}>
-                          {item.correctAns}
+                          {parsedQuestion.answer}
                         </p>
                       </div>
                     </div>
@@ -227,7 +242,8 @@ const Feedback = ({ params }) => {
                     </div>
                   </CollapsibleContent>
                 </Collapsible>
-              ))}
+                )
+              })}
               <div className="text-center flex justify-center">
                 <motion.div className='text-center' variants={buttonVariants} whileHover="hover">
                   <Button onClick={() => router.replace('/dashboard')} className="w-full bg-[#10B981] hover:bg-[#10B968] md:w-auto">

@@ -69,35 +69,35 @@ const StartInterview = ({ params }) => {
   };
   
   
-  const handleAnswerSave = (answerRecord) => {
+    const handleAnswerSave = (answerRecord) => {
 
-    setMockInterviewQuestion((prevQuestions) => {
+      setMockInterviewQuestion((prevQuestions) => {
 
-        // Ensure prevQuestions is an array
-        if (!Array.isArray(prevQuestions)) {
-            return [];
-        }
+          // Ensure prevQuestions is an array
+          if (!Array.isArray(prevQuestions)) {
+              return [];
+          }
 
-        // Ensure activeQuestionIndex is within range
-        if (activeQuestionIndex < 0 || activeQuestionIndex >=  mockInterviewQuestion.length - 1) {
-            return prevQuestions;
-        }
+          // Ensure activeQuestionIndex is within range
+          if (activeQuestionIndex < 0 || activeQuestionIndex >=  mockInterviewQuestion.length - 1) {
+              return prevQuestions;
+          }
 
-        return prevQuestions.map((question, index) =>
-            index === activeQuestionIndex ? { ...question, answer: answerRecord } : question
-        );
-    });
+          return prevQuestions.map((question, index) =>
+              index === activeQuestionIndex ? { ...question, answer: answerRecord } : question
+          );
+      });
 
-    // Ensure we don't go out of bounds when moving to the next question
-    setActiveQuestionIndex((prevIndex) => {
-        const nextIndex = prevIndex + 1;
-        return nextIndex < mockInterviewQuestion.length ? nextIndex : prevIndex;
-    });
-};
-
-
+      // Ensure we don't go out of bounds when moving to the next question
+      setActiveQuestionIndex((prevIndex) => {
+          const nextIndex = prevIndex + 1;
+          return nextIndex < mockInterviewQuestion.length ? nextIndex : prevIndex;
+      });
+  };
 
 
+
+  // console.log("mockInterviewQuestion", mockInterviewQuestion)
   
   // Animations
   const fadeInStagger = {
@@ -143,6 +143,9 @@ const StartInterview = ({ params }) => {
     );
   }
 
+
+
+  
 
   return (
     <section className={`${theme === "dark" ? "bg-[#0D1117] isolate" : "bg-[#f3f4f6]"} min-h-screen overflow-hidden relative`}>

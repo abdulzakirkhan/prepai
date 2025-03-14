@@ -11,7 +11,7 @@ const QuestionsSection = ({ mockInterviewQuestion, activeQuestionIndex }) => {
   // Ensure questionsArray is always an array
   const questionsArray = Array.isArray(mockInterviewQuestion)
   ? mockInterviewQuestion
-  : Object.values(mockInterviewQuestion || []);
+  : [mockInterviewQuestion]; 
 
 
 
@@ -49,7 +49,17 @@ const QuestionsSection = ({ mockInterviewQuestion, activeQuestionIndex }) => {
       backdropFilter: "blur(15px)",
     },
   };
+  
 
+
+  let currentQuestion;
+  if(mockInterviewQuestion.length > 2){
+    currentQuestion = JSON?.parse(mockInterviewQuestion[activeQuestionIndex]);
+  }else{
+    currentQuestion = mockInterviewQuestion[activeQuestionIndex];
+  }
+
+  
   return (
     <motion.div
       variants={cardVariants}
@@ -74,7 +84,11 @@ const QuestionsSection = ({ mockInterviewQuestion, activeQuestionIndex }) => {
 
       {/* 🔥 Display Selected Question */}
       <h2 className="my-5 text-md md:text-lg dark:text-white">
-        {mockInterviewQuestion[activeQuestionIndex] || "⚠️ No question available. Please refresh."}
+        {/* {currentQuestion?.question ?? "⚠️ No question available. Please refresh."} */}
+        {
+        mockInterviewQuestion.length > 2 ? currentQuestion?.question : currentQuestion
+        }
+
       </h2>
 
       {/* 🔥 Speech Button */}

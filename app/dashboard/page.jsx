@@ -13,15 +13,16 @@ import {
   Code
 } from "lucide-react";
 import { db } from "@/utils/db";
-import { MockInterview } from "@/utils/schema";
+import { MockInterview, UserAnswer } from "@/utils/schema";
 import AddNewInterview from './_components/AddNewInterview'
 import InterviewList from './_components/InterviewList'
 import Image from 'next/image';
 import { useTheme } from '../context/ThemeContext';
-import { eq ,desc} from 'drizzle-orm';
-
+import { eq ,desc, isNotNull} from 'drizzle-orm';
 function Dashboard() {
   const { user } = useUser();
+  const [highestRating, setHighestRating] = useState(0)
+  const [userQuestions, setUserQuestions] = useState([])
   const [interviewData, setInterviewData] = useState([]);
   const [isNewInterviewModalOpen, setIsNewInterviewModalOpen] = useState(false);
   const {theme,toggleTheme} =useTheme()
@@ -30,7 +31,7 @@ function Dashboard() {
   const [statsCards, setStatsCards] = useState([
     {
       icon: <ListChecks size={32} className="text-[#10B981]" />,
-      title: "Total Interview Question",
+      title: "Total Interview Sessions",
       value: interviews.length || "0",
     },
     {
@@ -64,38 +65,81 @@ function Dashboard() {
 
 
 
+  const GetUserQuestions = async () => {
+    if (!user?.primaryEmailAddress?.emailAddress) {
+        console.error("User email is missing.");
+        return;
+    }
 
+    const result = await db
+        .select()
+        .from(UserAnswer)
+        .where(eq(UserAnswer.userEmail, user?.primaryEmailAddress?.emailAddress))
+        .orderBy(desc(UserAnswer.id));
 
-
-
-  const calculateImprovementRate = (interviews) => {
-    if (interviews.length <= 1) return 0;
-    
-    const scores = interviews
-      .map(interview => parseInt(interview.rating || '0'))
-      .sort((a, b) => a - b);
-    
-    const improvement = ((scores[scores.length - 1] - scores[0]) / scores[0]) * 100;
-    return Math.round(improvement);
+    setUserQuestions(result); // Assuming you have a state setter like `setUserQuestions`
   };
 
 
+
+console.log("UserQuestions: ", userQuestions);
+
+const calculateImprovementRate = (interviews) => {
+  if (interviews.length < 2) return 0; // Need at least two interviews
+
+  // Sort interviews by creation date (assuming `createdAt` exists)
+  const sortedInterviews = interviews.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+  // Extract previous and latest scores
+  const prevScore = parseInt(sortedInterviews[sortedInterviews.length - 2].rating || '0', 10);
+  const latestScore = parseInt(sortedInterviews[sortedInterviews.length - 1].rating || '0', 10);
+
+  if (prevScore === 0) return 100; // If the previous score was 0, assume 100% improvement
+
+  const improvement = ((latestScore - prevScore) / prevScore) * 100;
   
+  return Math.round(improvement); // Round to whole number
+};
+
+
+
+  const GetHighestRating = async () => {
+  
+    const result = await db
+    .select()
+    .from(UserAnswer)
+    .where(isNotNull(UserAnswer.rating))
+    .orderBy(desc(UserAnswer.rating))
+    .limit(1);
+  
+  
+    if (result.length > 0) {
+      const highestRating = parseFloat(result[0].rating);
+      setHighestRating(!isNaN(highestRating) ? highestRating : 0); 
+    } else {
+      setHighestRating(0); 
+    }
+  };
+
+
+
+
 
   useEffect(() => {
     if (user?.primaryEmailAddress?.emailAddress) {
       GetInterviewList();
-      
+      GetUserQuestions();
+      GetHighestRating();
     }
   }, [user,]);
 
 
   useEffect(() => {
+
     if (interviews.length > 0) {
-      toast.success(`Loaded ${interviews.length} Interviews`, { id: "interview-toast" });
-      const bestScore = interviews > 0 
-        ? Math.max(...interviews.map(item => parseInt(item.rating || '0', 10)))
-        : 0;
+      toast.success(`Loaded ${interviews.length} ${interviews.length > 1 ? "Sessions" : "Session"} `, { id: "interview-toast" });
+      const improvementRate = calculateImprovementRate(interviews); 
+
       setStatsCards([
         {
           ...statsCards[0],
@@ -103,17 +147,19 @@ function Dashboard() {
         },
         {
           ...statsCards[1],
-          value: interviews === 0 ? 'N/A' : `${bestScore}/10` 
+          value:`${highestRating}/10` 
         },
         {
           ...statsCards[2],
-          value: interviews > 1 ? `${improvementRate}%` : '0%'
+          value: `${improvementRate}%` || '0%'
         }
       ])
     }
-  }, [interviews]);
-  
+  }, [interviews,highestRating]);
 
+
+console.log("interviews.lenght ", interviews.length);
+  
   return (
     <div className={`${theme === "dark" ? "bg-gradient-to-b from-[#1F2937] to-[#111827]" : "bg-[#f3f4f6]"} min-h-screen flex items-center`}>
       <motion.div
