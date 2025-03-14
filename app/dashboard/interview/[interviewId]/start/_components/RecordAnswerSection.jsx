@@ -9,6 +9,7 @@ import { UserAnswer } from "@/utils/schema";
 import { useUser } from "@clerk/nextjs";
 import { chatSession } from "@/utils/GeminiAIModal";
 import { motion } from "framer-motion";
+import Webcam from "react-webcam";
 import { useTheme } from "@/app/context/ThemeContext";
 const RecordAnswerSection = ({ 
   mockInterviewQuestion, 
@@ -152,12 +153,26 @@ const RecordAnswerSection = ({
         whileHover={`${theme === "dark" ? "hover" : "no-hover"}`}
        className={`flex flex-col my-20 justify-center items-center rounded-lg p-5 border-[#10B981] ${theme === "dark" ? "shadow-lg transition-all bg-opacity-80 backdrop-blur-lg bg-[#1F2937]" :"bg-white"}`}>
         {webcamEnabled ? (
-          <video 
-            ref={webcamRef} 
-            autoPlay 
+            <>
+           {/* <video 
+             ref={webcamRef} 
+             autoPlay 
             playsInline 
             className="w-[200px] h-[200px] object-cover rounded-lg"
-          />
+           /> */}
+           <Webcam
+                mirrored={true}
+                style={{ height: "100%", width: "100%" }}
+                onUserMedia={(mediaStream) => {
+                  setStream(mediaStream);
+                }}
+                onUserMediaError={(error) => {
+                  toast.error(`Webcam error: ${error.name} - ${error.message}`);
+                  setWebCamEnabled(false);
+                }}
+              />
+
+        </>
         ) : (
           <div className={`w-[200px] h-[200px] ${theme === "dark" ? "bg-black text-white" :"bg-white text-black"}  flex justify-center items-center border-2 border-[#10B981] rounded-lg`}>
             <p className={``} >Webcam Disabled</p>
