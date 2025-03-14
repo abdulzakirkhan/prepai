@@ -129,12 +129,12 @@ function Interview({ params }) {
           </div>
 
           <motion.div
-          className={`rounded-2xl px-0 py-0 m-0 border border-[#10B981] ${theme === "dark" ? "shadow-lg transition-all bg-opacity-80 backdrop-blur-lg bg-[#1F2937]" : ""} `}
+          className={`rounded-2xl overflow-hidden px-0 py-0 m-0 border border-[#10B981] ${theme === "dark" ? "shadow-lg transition-all bg-opacity-80 backdrop-blur-lg bg-[#1F2937]" : ""} `}
           >
             {webCamEnabled ? (
               <Webcam
                 mirrored={true}
-                style={{ height: 300, width: "auto" }}
+                style={{ height: "100%", width: "100%" }}
                 onUserMedia={(mediaStream) => {
                   setStream(mediaStream);
                   console.log("Webcam started successfully");
