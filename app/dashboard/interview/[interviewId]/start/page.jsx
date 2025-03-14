@@ -97,7 +97,6 @@ const StartInterview = ({ params }) => {
 
 
 
-  // console.log("mockInterviewQuestion", mockInterviewQuestion)
   
   // Animations
   const fadeInStagger = {

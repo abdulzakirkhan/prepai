@@ -54,7 +54,6 @@ function Interview({ params }) {
     }
   };
 
-  console.log("webCamEnabled,",webCamEnabled)
 
 
   if (!interviewData) {
@@ -137,10 +136,8 @@ function Interview({ params }) {
                 style={{ height: "100%", width: "100%" }}
                 onUserMedia={(mediaStream) => {
                   setStream(mediaStream);
-                  console.log("Webcam started successfully");
                 }}
                 onUserMediaError={(error) => {
-                  console.log("error",error)
                   toast.error(`Webcam error: ${error.name} - ${error.message}`);
                   setWebCamEnabled(false);
                 }}

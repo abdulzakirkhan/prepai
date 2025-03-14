@@ -21,11 +21,14 @@ import { useTheme } from '../context/ThemeContext';
 import { eq ,desc, isNotNull} from 'drizzle-orm';
 function Dashboard() {
   const { user } = useUser();
+  const [averageRating  , setAverageRating  ] = useState()
   const [highestRating, setHighestRating] = useState(0)
   const [userQuestions, setUserQuestions] = useState([])
   const [interviewData, setInterviewData] = useState([]);
+  const [lastIndex, setLastIndex] = useState()
   const [isNewInterviewModalOpen, setIsNewInterviewModalOpen] = useState(false);
   const {theme,toggleTheme} =useTheme()
+  const [feedbackList, setFeedbackList] = useState([])
  const [interviews, setInterviews] = useState([]);
   const [userInterviews, setUserInterviews] = useState([])
   const [statsCards, setStatsCards] = useState([
@@ -48,7 +51,6 @@ function Dashboard() {
 
 
 
-
     const GetInterviewList = async () => {
       const result = await db
         .select()
@@ -57,6 +59,8 @@ function Dashboard() {
           eq(MockInterview.createdBy, user?.primaryEmailAddress?.emailAddress)
         )
         .orderBy(desc(MockInterview.id));
+        
+
       setInterviews(result);
     };
 
@@ -64,10 +68,8 @@ function Dashboard() {
 
 
 
-
   const GetUserQuestions = async () => {
     if (!user?.primaryEmailAddress?.emailAddress) {
-        console.error("User email is missing.");
         return;
     }
 
@@ -82,7 +84,6 @@ function Dashboard() {
 
 
 
-console.log("UserQuestions: ", userQuestions);
 
 const calculateImprovementRate = (interviews) => {
   if (interviews.length < 2) return 0; // Need at least two interviews
@@ -100,6 +101,7 @@ const calculateImprovementRate = (interviews) => {
   
   return Math.round(improvement); // Round to whole number
 };
+
 
 
 
@@ -122,7 +124,32 @@ const calculateImprovementRate = (interviews) => {
   };
 
 
+  const GetFeedback = async () => {
+     try {
+        // Fetch all user answers across all interviews
+        const result = await db.select()
+            .from(UserAnswer)
+            .orderBy(UserAnswer.id); // Order by ID (optional)
 
+            setFeedbackList(result);
+
+            // Extract valid ratings (convert to numbers and remove NaN values)
+            const validRatings = result
+            .map((item) => parseFloat(item.rating))
+            .filter((rating) => !isNaN(rating));
+
+        // Calculate total and average rating
+        const totalRating = validRatings.reduce((sum, rating) => sum + rating, 0);
+        const avgRating = validRatings.length > 0 
+            ? (totalRating / validRatings.length).toFixed(1) 
+            : "N/A";
+
+        setAverageRating(avgRating);
+     }catch (error) {
+      console.error("Error fetching feedback:", error);
+    }
+
+  }
 
 
   useEffect(() => {
@@ -130,8 +157,10 @@ const calculateImprovementRate = (interviews) => {
       GetInterviewList();
       GetUserQuestions();
       GetHighestRating();
+      GetFeedback();
     }
-  }, [user,]);
+    
+  }, [user]);
 
 
   useEffect(() => {
@@ -147,7 +176,7 @@ const calculateImprovementRate = (interviews) => {
         },
         {
           ...statsCards[1],
-          value:`${highestRating}/10` 
+          value:averageRating ? `${averageRating}/10` : 'N/A'  
         },
         {
           ...statsCards[2],
@@ -157,9 +186,6 @@ const calculateImprovementRate = (interviews) => {
     }
   }, [interviews,highestRating]);
 
-
-console.log("interviews.lenght ", interviews.length);
-  
   return (
     <div className={`${theme === "dark" ? "bg-gradient-to-b from-[#1F2937] to-[#111827]" : "bg-[#f3f4f6]"} min-h-screen flex items-center`}>
       <motion.div

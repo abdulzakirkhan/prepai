@@ -114,7 +114,6 @@ const RecordAnswerSection = ({
         return;
       }
   
-      console.log("Answer Record:", answerRecord);
   
       // Insert into DB
       await db.insert(UserAnswer).values(answerRecord);

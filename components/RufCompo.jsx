@@ -107,7 +107,6 @@ const [webcamEnabled, setWebcamEnabled] = useState(false);
       onAnswerSave(answerRecord);
 
     } catch (error) {
-      console.log("DB Error :", error);
       toast.error("Failed to save answer", { description: error.message });
     } finally {
       setLoading(false);
