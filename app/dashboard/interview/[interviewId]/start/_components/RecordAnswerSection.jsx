@@ -22,6 +22,7 @@ const RecordAnswerSection = ({
   const [isRecording, setIsRecording] = useState(false);
   const recognitionRef = useRef(null);
   const [webcamEnabled, setWebcamEnabled] = useState(false);
+  const webcamRef=useRef(null)
   const { theme } = useTheme();
   const EnableWebcam = async () => {
     try {
