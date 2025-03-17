@@ -46,29 +46,32 @@ const RecordAnswerSection = ({
     tracks?.forEach(track => track.stop());
     setWebcamEnabled(false);
   };
-  const StartStopRecording = () => {
+    const StartStopRecording = async () => {
     if (!isRecording) {
-      recognitionRef.current = new window.webkitSpeechRecognition(); // For Chrome
-      recognitionRef.current.continuous = true; // Allow continuous recording
-      recognitionRef.current.interimResults = false;
-      recognitionRef.current.lang = "en-US";
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true }); // Request mic access
+        recognitionRef.current = new window.webkitSpeechRecognition();
+        recognitionRef.current.continuous = true;  // Ensure continuous listening
+        recognitionRef.current.interimResults = false;
+        recognitionRef.current.lang = "en-US";
   
-      recognitionRef.current.onresult = (event) => {
-        setUserAnswer(prev => prev + " " + event.results[event.results.length - 1][0].transcript);
-      };
+        recognitionRef.current.onresult = (event) => {
+          setUserAnswer(event.results[0][0].transcript);
+        };
   
-      recognitionRef.current.onerror = (event) => {
-        toast.error("Recording error: " + event.error);
-      };
+        recognitionRef.current.onerror = (event) => {
+          toast.error("Recording error: " + event.error);
+          console.error("Speech recognition error:", event.error);
+        };
+
+        console.log("recognitionRef",recognitionRef)
   
-      recognitionRef.current.onend = () => {
-        if (isRecording) {
-          recognitionRef.current.start(); // Restart when it stops unexpectedly
-        }
-      };
-  
-      recognitionRef.current.start();
-      setIsRecording(true);
+        recognitionRef.current.start();
+        setIsRecording(true);
+      } catch (error) {
+        toast.error("Microphone access denied. Please allow microphone permissions.");
+        console.error("Microphone access error:", error);
+      }
     } else {
       recognitionRef.current?.stop();
       setIsRecording(false);
