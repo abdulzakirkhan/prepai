@@ -83,7 +83,7 @@ export default function ResourcesPage() {
         {faqs.map((faq, index) => (
           <details key={index} className={`${theme === "dark" ? "bg-gray-800" : "bg-[#e5e7eb]"} p-4 rounded-lg #e5e7eb`}>
             <summary className="cursor-pointer font-semibold">{faq.question}</summary>
-            <p className={`mt-2 ${theme === "dark" ? "text-gray-400" : "text-black"}`}>{faq.answer}</p>
+            <p className={`mt-2 ${theme === "dark" ? "text-white" : "text-gray-800"}`}>{faq.answer}</p>
           </details>
         ))}
       </div>
