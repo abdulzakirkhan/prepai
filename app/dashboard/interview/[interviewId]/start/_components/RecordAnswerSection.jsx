@@ -49,18 +49,24 @@ const RecordAnswerSection = ({
   const StartStopRecording = () => {
     if (!isRecording) {
       recognitionRef.current = new window.webkitSpeechRecognition(); // For Chrome
-      recognitionRef.current.continuous = false;
+      recognitionRef.current.continuous = true; // Allow continuous recording
       recognitionRef.current.interimResults = false;
       recognitionRef.current.lang = "en-US";
-
+  
       recognitionRef.current.onresult = (event) => {
-        setUserAnswer(event.results[0][0].transcript);
+        setUserAnswer(prev => prev + " " + event.results[event.results.length - 1][0].transcript);
       };
-
+  
       recognitionRef.current.onerror = (event) => {
         toast.error("Recording error: " + event.error);
       };
-
+  
+      recognitionRef.current.onend = () => {
+        if (isRecording) {
+          recognitionRef.current.start(); // Restart when it stops unexpectedly
+        }
+      };
+  
       recognitionRef.current.start();
       setIsRecording(true);
     } else {
@@ -169,7 +175,7 @@ const RecordAnswerSection = ({
                 }}
                 onUserMediaError={(error) => {
                   toast.error(`Webcam error: ${error.name} - ${error.message}`);
-                  setWebCamEnabled(false);
+                  setWebcamEnabled(false);
                 }}
               />
 
