@@ -192,7 +192,7 @@ const Feedback = ({ params }) => {
 
               {feedbackList.map((item, index) => {
                 const parsedQuestion = item.question ? JSON.parse(item.question) : { question: "Question not found" };
-
+                console.log("parsedQuestion",parsedQuestion.question)
                 return (
                 <Collapsible key={index} className="border rounded-lg overflow-hidden">
                   <CollapsibleTrigger className="w-full">
@@ -207,7 +207,7 @@ const Feedback = ({ params }) => {
                               : "text-red-500"
                           }`} 
                         />
-                        <span className="font-medium text-gray-800 line-clamp-1">
+                        <span className="font-medium text-gray-800 text-start">
                           {parsedQuestion.question}
                         </span>
                       </div>
